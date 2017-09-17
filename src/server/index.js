@@ -1,17 +1,25 @@
-import express from 'express';
-import { resolve } from 'path';
+import bodyParer from 'body-parser';
 import compression from 'compression';
+import express from 'express';
 import next from 'next';
+import { resolve } from 'path';
+import morgan from 'morgan';
+
+import { initialize as initializeDatabase } from 'database';
+import routes from 'routes';
 
 const port = process.env.PORT || 3000;
+const isDevelopment = process.env.NODE_ENV !== 'production';
 
 const app = next({
   dir: resolve(__dirname, '../client'),
-  dev: process.env.NODE_ENV !== 'production',
+  dev: isDevelopment,
 });
 
 const server = express();
 
+server.use(morgan(isDevelopment ? 'dev' : 'combined'));
+server.use(bodyParer.json());
 server.use(compression());
 
 const listen = (server, port) => new Promise((resolve, reject) => { // eslint-disable-line
@@ -23,9 +31,16 @@ const listen = (server, port) => new Promise((resolve, reject) => { // eslint-di
 
 const initialize = async () => {
   try {
+    await initializeDatabase();
     await app.prepare();
     const listener = await listen(server, port);
-    console.log(`Server started on ${listener.address().port}`);
+    server.use('/api', routes());
+    server.use((error, req, res) => {
+      const message = error.message || error;
+      console.error(`Error: ${message}`);
+      res.status(500).json({ error: message });
+    });
+    console.log(`Server started on port ${listener.address().port}`);
   } catch (error) {
     console.error(error);
   }

@@ -1,18 +1,21 @@
 {
   "parser": "babel-eslint",
   "extends": ["airbnb"],
+  "plugins": ["react", "babel", "jsx-a11y", "import"],
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
+  },
   "rules": {
-        "jsx-a11y/href-no-hash": "off",
-        "jsx-a11y/anchor-is-valid": [ "warn", {
-            "aspects": [ "invalidHref" ]
-        }]
+      "jsx-a11y/href-no-hash": "off"
   },
   "settings": {
     "import/resolver": {
       "webpack": {
         "config": {
           "resolve": {
-            "modules": ["node_modules", "src"]
+            "modules": [ "node_modules", "src", "src/client", "src/server"]
           }
         }
       }
