@@ -1,0 +1,21 @@
+{
+  "parser": "babel-eslint",
+  "extends": ["airbnb"],
+  "rules": {
+        "jsx-a11y/href-no-hash": "off",
+        "jsx-a11y/anchor-is-valid": [ "warn", {
+            "aspects": [ "invalidHref" ]
+        }]
+  },
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": {
+          "resolve": {
+            "modules": ["node_modules", "src"]
+          }
+        }
+      }
+    }
+  }
+}

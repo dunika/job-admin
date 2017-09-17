@@ -1,0 +1,48 @@
+{
+  "name": "job-admin",
+  "version": "0.0.1",
+  "description": "Interface for adding jobs, creating posts and posting to Facebook",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --exec babel-node src/server",
+    "build": "next build src/client",
+    "start": "next start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dunika/job-admin.git"
+  },
+  "keywords": [
+    "react",
+    "nextjs"
+  ],
+  "author": "Donncha Breen <dbreen91@gmail.com> (https://github.com/dunika)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dunika/job-admin/issues"
+  },
+  "homepage": "https://github.com/dunika/job-admin#readme",
+  "dependencies": {
+    "compression": "^1.7.0",
+    "express": "^4.15.4",
+    "next": "^3.2.2",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.0.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
+    "cross-env": "^5.0.5",
+    "eslint": "^4.7.0",
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-config-airbnb-base": "^12.0.0",
+    "eslint-import-resolver-webpack": "^0.8.3",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.3.0",
+    "nodemon": "^1.12.1"
+  }
+}
