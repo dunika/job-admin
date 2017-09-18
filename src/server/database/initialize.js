@@ -1,13 +1,17 @@
 import mongoose from 'mongoose';
 
-import Job from './Job'; // eslint-disable-line no-unused-vars
 import config from 'config';
+import { isDevelopment } from 'utils';
+import Job from './Job'; // eslint-disable-line no-unused-vars
+
 
 mongoose.Promise = Promise;
 
 export default async () => {
   try {
-    await mongoose.connect(config.database);
+    await mongoose.connect(config.database, {
+      config: { autoIndex: !isDevelopment },
+    });
     console.log('Connected to database');
   } catch (error) {
     throw new Error(error);

@@ -53,15 +53,18 @@ export default async (req, res, next) => {
           sourceId: jobref,
           title,
         };
-        console.log(jobref);
         return sanitazedSalary ? withSalary(data, sanitazedSalary) : data;
       }), { ordered: false });
     } catch (error) {
-      console.log('lad');
-      console.log(error.message || error);
+      const codes = error.writeErrors.map(e => e.code);
+      const duplicates = codes.filter(code => code === 11000).length;
+      res.status(200).json({
+        added: jobs.length - codes.length,
+        duplicates,
+        errors: codes.length - duplicates,
+      });
     }
-    console.log('done');
-    res.status(200);
+    res.status(200).json({ added: jobs.length });
   } catch (error) {
     next(error);
   }

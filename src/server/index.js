@@ -5,11 +5,11 @@ import next from 'next';
 import { resolve } from 'path';
 import morgan from 'morgan';
 
+import { isDevelopment } from 'utils';
 import { initialize as initializeDatabase } from 'database';
 import routes from 'routes';
 
 const port = process.env.PORT || 3000;
-const isDevelopment = process.env.NODE_ENV !== 'production';
 
 const app = next({
   dir: resolve(__dirname, '../client'),
