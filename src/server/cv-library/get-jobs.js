@@ -5,7 +5,8 @@ import parseXml from 'xml2json';
 
 import config from 'config';
 import request from 'shared/request';
-import { models } from 'database';
+import { getInsertManyResult, models } from 'database';
+
 import { resolvePath } from 'utils';
 
 const read = promisify(fs.readFile);
@@ -32,6 +33,7 @@ export default async (req, res, next) => {
     console.log('Fetching jobs from CV Library');
     // const xml = await request(config.cvLibrary);
     const xml = await read(resolvePath('../files/test.xml', 'utf8'));
+
     const { jobs: { job: jobs } } = parseXml.toJson(xml, { object: true });
     try {
       await models.Job.insertMany(jobs.map(({
@@ -56,15 +58,11 @@ export default async (req, res, next) => {
         return sanitazedSalary ? withSalary(data, sanitazedSalary) : data;
       }), { ordered: false });
     } catch (error) {
-      const codes = error.writeErrors.map(e => e.code);
-      const duplicates = codes.filter(code => code === 11000).length;
-      res.status(200).json({
-        added: jobs.length - codes.length,
-        duplicates,
-        errors: codes.length - duplicates,
-      });
+      res.status(200).json(getInsertManyResult(jobs, error));
+      return;
     }
     res.status(200).json({ added: jobs.length });
+    return;
   } catch (error) {
     next(error);
   }
