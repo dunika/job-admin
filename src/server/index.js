@@ -5,7 +5,7 @@ import next from 'next';
 import { resolve } from 'path';
 import morgan from 'morgan';
 
-import { isDevelopment } from 'utils';
+import { isDevelopment } from 'isomorphic';
 import { initialize as initializeDatabase } from 'database';
 import routes from 'routes';
 
@@ -35,8 +35,9 @@ const initialize = async () => {
     await app.prepare();
     const listener = await listen(server, port);
     server.use('/api', routes());
-    server.use((error, req, res) => {
+    server.use((error, req, res, next) => {
       const message = error.message || error;
+      console.log(error, req, res, next, 'adf');
       console.error(`Error: ${message}`);
       res.status(500).json({ error: message });
     });

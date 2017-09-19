@@ -1,5 +1,8 @@
 import fetch from 'isomorphic-fetch';
 import Form from 'isomorphic-form-data';
+import urlJoin from 'url-join';
+
+import { baseUrl } from 'config';
 
 const withFormData = (formData) => {
   const form = new Form();
@@ -38,13 +41,15 @@ const handleSuccessResponse = (response) => {
   return response.json();
 };
 
+const handleUrl = url => (/^https?:\/\//.test(url) ? url : urlJoin(baseUrl, url));
+
 export default async (url, body) => {
   try {
     const options = body ? withBody(body) : {
       headers: {},
       method: 'GET',
     };
-    const response = await fetch(url, options);
+    const response = await fetch(handleUrl(url), options);
     if (response.ok) {
       return handleSuccessResponse(response);
     }

@@ -2,7 +2,7 @@ import BlueBird from 'bluebird';
 
 import config from 'config';
 import { models } from 'database';
-import request from 'shared/request';
+import { request } from 'isomorphic';
 
 export default async (req, res) => {
   const jobs = await models.Job.find(

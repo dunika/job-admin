@@ -1,5 +1,5 @@
 import { resolve } from 'path';
 
+/* eslint-disable */
 export const resolvePath = path => resolve(__dirname, path);
-
-export const isDevelopment = process.env.NODE_ENV !== 'production';
+/* eslint-disable */

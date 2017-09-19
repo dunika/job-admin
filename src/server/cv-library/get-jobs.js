@@ -1,15 +1,8 @@
-import fs from 'fs';
-import { promisify } from 'util';
-
 import parseXml from 'xml2json';
 
-import config from 'config';
-import request from 'shared/request';
+import { cvLibraryApi } from 'config';
+import request from 'isomorphic';
 import { getInsertManyResult, models } from 'database';
-
-import { resolvePath } from 'utils';
-
-const read = promisify(fs.readFile);
 
 const sanitizeSalary = (salary) => {
   if (typeof salary === 'string') {
@@ -31,9 +24,7 @@ ${description}`,
 export default async (req, res, next) => {
   try {
     console.log('Fetching jobs from CV Library');
-    // const xml = await request(config.cvLibrary);
-    const xml = await read(resolvePath('../files/test.xml', 'utf8'));
-
+    const xml = await request(cvLibraryApi);
     const { jobs: { job: jobs } } = parseXml.toJson(xml, { object: true });
     try {
       await models.Job.insertMany(jobs.map(({
