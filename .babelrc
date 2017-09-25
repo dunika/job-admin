@@ -1,9 +1,32 @@
 {
+  "presets": [
+    "next/babel",
+    "stage-0",
+    "es2015"
+  ],
   "plugins": [
-    "transform-runtime",
-    ["module-resolver", {
-      "root": ["./src", "./src/client", "./src/server"]
-    }]
-  ],    
-  "presets": ["next/babel", "es2015", "stage-0"]
+    [ "styled-components", { "ssr": true } ], 
+    "transform-flow-strip-types", [ 
+      "module-resolver", { 
+        "root": [ "./src" ]
+        } 
+      ],
+    [
+      "transform-imports",
+      {
+        "lodash": {
+          "transform": "lodash/${member}",
+          "preventFullImport": true
+        },
+        "lodash/fp": {
+          "transform": "lodash/fp/${member}",
+          "preventFullImport": true
+        },
+        "recompose": {
+          "transform": "recompose/${member}",
+          "preventFullImport": true
+        }
+      }
+    ]
+  ]
 }

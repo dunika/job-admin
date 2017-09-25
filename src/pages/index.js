@@ -1,4 +1,5 @@
 import React from 'react';
+
 import 'isomorphic-fetch';
 
 export default class MyPage extends React.Component {

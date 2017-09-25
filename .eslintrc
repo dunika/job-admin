@@ -16,7 +16,7 @@
       "webpack": {
         "config": {
           "resolve": {
-            "modules": [ "node_modules", "src", "src/client", "src/server"]
+            "modules": [ "node_modules", "src"]
           }
         }
       }

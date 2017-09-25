@@ -11,9 +11,7 @@ const withFormData = (formData) => {
   });
   return {
     body: form,
-    headers: {
-      ...form.getHeaders(),
-    },
+    headers: form.getHeaders(),
   };
 };
 
@@ -33,12 +31,17 @@ const withJson = (body) => {
 
 const withBody = body => (body.formData ? withFormData(body.formData) : withJson(body));
 
-const handleSuccessResponse = (response) => {
+const getResponseData = (response) => {
   const contentType = response.headers.get('Content-Type');
   if (/text|xml|html/.test(contentType)) {
     return response.text();
   }
   return response.json();
+};
+
+const handleError = async (response) => {
+  const data = await getResponseData(response);
+  return typeof data === 'string' ? data : data.error;
 };
 
 const handleUrl = url => (/^https?:\/\//.test(url) ? url : urlJoin(baseUrl, url));
@@ -51,10 +54,11 @@ export default async (url, body) => {
     };
     const response = await fetch(handleUrl(url), options);
     if (response.ok) {
-      return handleSuccessResponse(response);
+      return getResponseData(response);
     }
-    throw new Error(await response.text());
+    throw new Error(await handleError(response));
   } catch (error) {
-    return new Error(error);
+    console.log(error);
+    throw new Error(error.message);
   }
 };

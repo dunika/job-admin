@@ -16,20 +16,21 @@ const CVLibrary = ({ getJobs, isLoading, data }) => (
 
 const enhance = compose(
   withState('isLoading', 'setIsLoading', false),
-  withState('data', 'setData', {}),
+  withState('data', 'setData', null),
   withHandlers({
     getJobs: ({ setIsLoading, setData }) => async () => {
       try {
         setIsLoading(true);
-        const data = await request;
+        const data = await request('/api/cv-library/get-jobs');
         setData(data);
       } catch (error) {
-        console.log(error);
+        setData({ error: error.message });
       } finally {
         setIsLoading(false);
       }
     },
   }),
 );
+
 
 export default enhance(CVLibrary);

@@ -1,7 +1,7 @@
 import BlueBird from 'bluebird';
 
 import config from 'config';
-import { models } from 'database';
+import { models } from 'server/database';
 import { request } from 'isomorphic';
 
 export default async (req, res) => {

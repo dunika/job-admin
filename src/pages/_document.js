@@ -2,7 +2,7 @@ import React from 'react';
 import Document, { Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
-import { global } from 'theme'; // eslint-disable-line
+import { global } from 'client/theme'; // eslint-disable-line no-unused-vars
 
 export default class MyDocument extends Document {
   render() {
