@@ -1,15 +1,15 @@
 import parseXml from 'xml2json';
-import { promisify } from 'util';
-import { compact, isString } from 'lodash';
-import { resolve } from 'path';
-import fs from 'fs';
+// import { promisify } from 'util';
+import { isString } from 'lodash';
+// import { resolve } from 'path';
+// import fs from 'fs';
 
 import { cvLibraryApi } from 'config';
 import { request } from 'isomorphic';
 import { getInsertManyResult, models } from 'server/database';
 import regions from '../regions';
 
-const readAsync = promisify(fs.readFile);
+// const readAsync = promisify(fs.readFile);
 
 const sanitizeSalary = (salary) => {
   if (typeof salary === 'string') {
@@ -21,7 +21,7 @@ const sanitizeSalary = (salary) => {
 };
 
 const withLocation = jobs => jobs.map(({ county, location, ...job }) => {
-  if (isString(county) && isString(location)) {
+  if (isString(county)) {
     const regex = new RegExp(`${`${county} ${location}`.split(' ').join('|')}`);
     const jobLocation = regions.find(region => regex.test(region));
     return {
@@ -44,11 +44,12 @@ ${description}`,
 export default async (req, res, next) => {
   try {
     console.log('Fetching jobs from CV Library');
-    const testXml = await readAsync(resolve(__dirname, '../../files/test.xml'));
-    // const xml = await request(cvLibraryApi);
-    const { jobs: { job: jobs } } = parseXml.toJson(testXml, { object: true });
+    // const testXml = await readAsync(resolve(__dirname, '../../files/test.xml'));
+    const xml = await request(cvLibraryApi);
+    const { jobs: { job: parsedJobs } } = parseXml.toJson(xml, { object: true });
+    const jobs = withLocation(parsedJobs);
     try {
-      await models.Job.insertMany(withLocation(jobs).map(({
+      await models.Job.insertMany(jobs.map(({
         description,
         jobref,
         location,
