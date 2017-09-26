@@ -13,6 +13,10 @@ const schema = new Schema({
   },
   location: String,
   salary: String,
+  source: {
+    type: String,
+    required: true,
+  },
   sourceId: {
     type: String,
     unique: true,

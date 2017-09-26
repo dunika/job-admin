@@ -7,10 +7,14 @@ import { baseUrl } from 'config';
 const withFormData = (formData) => {
   const form = new Form();
   Object.entries(formData).forEach(([key, value]) => {
+    if (typeof value === 'undefined') {
+      throw new Error(`Form value ${key} is undefined`);
+    }
     form.append(key, value);
   });
   return {
     body: form,
+    method: 'POST',
     headers: form.getHeaders(),
   };
 };

@@ -68,7 +68,6 @@ export default async (req, res, next) => {
           sourceId: jobref,
           title,
         };
-        console.log(jobref, location);
         return sanitizedSalary ? withSalary(data, sanitizedSalary) : data;
       }), { ordered: false });
     } catch (error) {
