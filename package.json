@@ -4,7 +4,7 @@
   "description": "Interface for adding jobs, creating posts and posting to Facebook",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec babel-node src/server --watch src/client/**, src/server/** --verbose",
+    "dev": "nodemon --ignore src/.next/ --ignore src/pages/ --exec babel-node src/server --verbose",
     "build": "next build src",
     "start": "next start"
   },
