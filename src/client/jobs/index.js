@@ -1,3 +1,8 @@
 import CVLibrary from './components/CVLibrary';
 
-export { CVLibrary };
+export * from './containers';
+export * from './store';
+
+export {
+  CVLibrary,
+};

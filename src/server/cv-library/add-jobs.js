@@ -7,7 +7,7 @@ import { isString } from 'lodash';
 import { cvLibraryApi } from 'config';
 import { request } from 'isomorphic';
 import { getInsertManyResult, models } from 'server/database';
-import regions from '../regions';
+import regions from 'server/shared/regions';
 
 // const readAsync = promisify(fs.readFile);
 

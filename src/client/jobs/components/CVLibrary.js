@@ -1,7 +1,9 @@
 import React from 'react';
+import { lifecycle } from 'recompose';
 
 import AddJobs from './AddJobs';
 import PostJobs from './PostJobs';
+
 
 const CVLibrary = () => (
   <div>
@@ -11,4 +13,5 @@ const CVLibrary = () => (
   </div>
 );
 
-export default CVLibrary;
+export default CVLibrary
+;

@@ -34,6 +34,7 @@ const initialize = async () => {
   try {
     await initializeDatabase();
     await app.prepare();
+
     const listener = await listen(server, process.env.PORT || 3000);
     console.log(`Server started on port ${listener.address().port}`);
   } catch (error) {

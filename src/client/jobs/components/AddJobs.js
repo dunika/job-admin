@@ -13,5 +13,5 @@ const AddJobs = ({ getJobs, isLoading, data }) => (
   </div>
 );
 
-export default withAsyncDataHandler('getJobs', () => request('/api/cv-library/get-jobs'))(AddJobs);
+export default withAsyncDataHandler('getJobs', () => request('/api/cv-library/add-jobs'))(AddJobs);
 

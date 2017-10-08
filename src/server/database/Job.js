@@ -11,6 +11,7 @@ const schema = new Schema({
     type: String,
     unique: true,
   },
+  flag: String,
   location: String,
   salary: String,
   source: {
