@@ -1,10 +1,12 @@
 import fetch from 'isomorphic-fetch';
 import Form from 'isomorphic-form-data';
 import urlJoin from 'url-join';
+import { stringify } from 'query-string';
+import { get, compose } from 'lodash/fp';
 
 import { baseUrl } from 'config';
 
-const withFormData = (formData) => {
+const addFormData = (formData) => {
   const form = new Form();
   Object.entries(formData).forEach(([key, value]) => {
     if (typeof value === 'undefined') {
@@ -19,21 +21,47 @@ const withFormData = (formData) => {
   };
 };
 
-const withJson = (body) => {
+const addJson = (body) => {
   try {
     return {
       body: JSON.stringify(body),
       headers: {
         'Content-Type': 'application/json',
       },
-      method: 'POST',
     };
   } catch (error) {
     throw new Error('Invalid body');
   }
 };
 
-const withBody = body => (body.formData ? withFormData(body.formData) : withJson(body));
+const addBody = body => (options) => {
+  if (!body || get(body, 'body.queryString')) {
+    return options;
+  }
+  const formData = get(body, 'body.formData');
+  if (formData) {
+    return addFormData(formData);
+  }
+  return addJson(body);
+};
+
+const addDefaults = options => ({
+  method: 'GET',
+  ...options,
+  headers: {
+    ...options.headers,
+  },
+});
+
+const buildOptions = (body, token, options) => compose(
+  addDefaults(options),
+  addBody(body),
+);
+
+const buildUrl = (url, body) => {
+  const query = get(body, 'body.queryString') ? stringify(body.queryString) : '';
+  return /^https?:\/\//.test(url) ? urlJoin(url, query) : urlJoin(baseUrl, url, query);
+};
 
 const getResponseData = (response) => {
   const contentType = response.headers.get('Content-Type');
@@ -48,21 +76,26 @@ const handleError = async (response) => {
   return typeof data === 'string' ? data : data.error;
 };
 
-const handleUrl = url => (/^https?:\/\//.test(url) ? url : urlJoin(baseUrl, url));
 
-export default async (url, body) => {
+const request = async (url, body, authToken, options) => {
   try {
-    const options = body ? withBody(body) : {
-      headers: {},
-      method: 'GET',
-    };
-    const response = await fetch(handleUrl(url), options);
+    const requestOptions = buildOptions(body, authToken, options);
+    const requestUrl = buildUrl(url, body);
+    const response = await fetch(requestUrl, requestOptions);
     if (response.ok) {
       return getResponseData(response);
     }
     throw new Error(await handleError(response));
   } catch (error) {
-    console.log(error);
     throw new Error(error.message);
   }
 };
+
+
+['get', 'post', 'put', 'patch', 'delete'].forEach((method) => {
+  request[method] = function createMethod(url, body, token, options) {
+    return this(url, body, token, { ...options, method: method.toUpperCase() });
+  };
+});
+
+export default request;
