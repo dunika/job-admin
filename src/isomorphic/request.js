@@ -42,7 +42,7 @@ const addAuth = authToken => (options) => {
     ...options,
     headers: {
       ...options.headers,
-      Authorization: authToken,
+      Authorization: `Bearer ${authToken}`,
     },
   };
 };

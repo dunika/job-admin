@@ -9,7 +9,6 @@ const AddJobs = ({ getJobs, isLoading, data }) => (
     <button disabled={isLoading} onClick={getJobs}>
       {isLoading ? 'Adding jobs...' : 'Add Jobs to Database'}
     </button>
-    <DisplayResults data={data} />
   </div>
 );
 

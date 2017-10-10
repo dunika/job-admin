@@ -1,12 +1,13 @@
 import parseXml from 'xml2json';
 // import { promisify } from 'util';
 import { isString } from 'lodash';
+import BlueBird from 'bluebird';
 // import { resolve } from 'path';
 // import fs from 'fs';
 
 import { cvLibraryApi } from 'config';
 import { request } from 'isomorphic';
-import { getInsertManyResult, models } from 'server/database';
+import { models } from 'server/database';
 import regions from 'server/shared/regions';
 
 // const readAsync = promisify(fs.readFile);
@@ -42,39 +43,43 @@ ${description}`,
 });
 
 export default async (req, res, next) => {
+  res.status(200).json({ });
+
   try {
     console.log('Fetching jobs from CV Library');
     // const testXml = await readAsync(resolve(__dirname, '../../files/test.xml'));
     const xml = await request(cvLibraryApi);
     const { jobs: { job: parsedJobs } } = parseXml.toJson(xml, { object: true });
     const jobs = withLocation(parsedJobs);
-    try {
-      await models.Job.insertMany(jobs.map(({
+    const addedJobs = await BlueBird.map(jobs, async ({
+      description,
+      jobref,
+      location,
+      salary,
+      title,
+      url,
+    }) => {
+      const sanitizedSalary = sanitizeSalary(salary);
+      const data = {
         description,
-        jobref,
         location,
-        salary,
+        urls: {
+          source: url,
+        },
+        source: 'cv-library',
+        sourceId: jobref,
         title,
-        url,
-      }) => {
-        const sanitizedSalary = sanitizeSalary(salary);
-        const data = {
-          description,
-          location,
-          urls: {
-            source: url,
-          },
-          source: 'cv-library',
-          sourceId: jobref,
-          title,
-        };
-        return sanitizedSalary ? withSalary(data, sanitizedSalary) : data;
-      }), { ordered: false });
-    } catch (error) {
-      res.status(200).json(getInsertManyResult(jobs, error));
-      return;
-    }
-    res.status(200).json({ added: jobs.length });
+      };
+      try {
+        const newJob = new models.Job(sanitizedSalary ? withSalary(data, sanitizedSalary) : data);
+        const addedJob = await newJob.save();
+        return addedJob;
+      } catch (error) {
+        console.log(error);
+        return null;
+      }
+    });
+    res.status(200).json([...addedJobs.filter(value => !!value)]);
     return;
   } catch (error) {
     next(error);

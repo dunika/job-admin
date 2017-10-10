@@ -1,17 +1,35 @@
 import React from 'react';
+import styled from 'styled-components';
+import moment from 'moment';
 
-import { connectReselect } from 'client/shared/store/utils';
+import { connectReselect } from 'client/shared/utils';
 import { actions, selectors } from '../store';
 
+const Result = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 500px;
+`;
+
+const Checkbox = styled.input`
+  height: 60px;
+  width: 60px;
+`;
+
 const Job = ({ toggle, isSelected, job }) => (
-  <div>
-    <input
+  <Result>
+    <Checkbox
       type="checkbox"
       checked={isSelected}
       onChange={() => toggle(job._id)}
     />
-    <div>{job.title}</div>
-  </div>
+    <div>
+      <div>{job.title}</div>
+      <div dangerouslySetInnerHTML={{ __html: `${job.description.substr(0, 200)}...` }} />
+      <div>{moment(job.date).format('dddd, MMMM, Do')}</div>
+    </div>
+  </Result>
 );
 
 const Jobs = ({ toggle, selected, jobs }) => (

@@ -40,5 +40,3 @@ export function configureStore(initialState = {}) {
 export function withReduxSaga(Component) {
   return withRedux(configureStore)(nextReduxSaga(Component));
 }
-
-export * from './utils';
