@@ -9,6 +9,7 @@ const jobsSchema = [jobSchema];
 const normalizeJobs = data => normalize(data, jobsSchema);
 
 export default {
+  addJobsToWordpress: createAsyncAction('ADD_JOBS_TO_WORDPRESS', normalizeJobs),
   addCvLibraryJobs: createAsyncAction('ADD_CVLIBRARY_JOB', normalizeJobs),
   dismissJob: createAsyncAction('DISMISS_JOB'),
   getJobs: createAsyncAction('GET_JOBS', normalizeJobs),
