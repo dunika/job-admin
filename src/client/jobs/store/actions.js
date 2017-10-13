@@ -9,7 +9,8 @@ const jobsSchema = [jobSchema];
 const normalizeJobs = data => normalize(data, jobsSchema);
 
 export default {
-  toggleJob: createAction('TOGGLE_JOB', payload => [payload]),
-  getJobs: createAsyncAction('GET_JOBS', normalizeJobs),
   addCvLibraryJobs: createAsyncAction('ADD_CVLIBRARY_JOB', normalizeJobs),
+  dismissJob: createAsyncAction('DISMISS_JOB'),
+  getJobs: createAsyncAction('GET_JOBS', normalizeJobs),
+  toggleJob: createAction('TOGGLE_JOB', payload => [payload]),
 };
