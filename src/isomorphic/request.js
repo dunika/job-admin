@@ -2,7 +2,7 @@ import fetch from 'isomorphic-fetch';
 import Form from 'isomorphic-form-data';
 import urlJoin from 'url-join';
 import { stringify } from 'query-string';
-import { get, compose } from 'lodash/fp';
+import { compose } from 'lodash/fp';
 
 import { baseUrl } from 'config';
 
@@ -53,10 +53,10 @@ const addAuth = authToken => (options) => {
 };
 
 const addBody = body => (options) => {
-  if (!body || get(body, 'body.queryString')) {
+  if (!body || body.queryString) {
     return options;
   }
-  const formData = get(body, 'body.formData');
+  const { formData } = body;
   if (formData) {
     return addFormData(formData);
   }
@@ -78,7 +78,7 @@ const buildOptions = (body, authToken) => compose(
 );
 
 const buildUrl = (url, body) => {
-  const query = get(body, 'body.queryString') ? stringify(body.queryString) : '';
+  const query = body && body.queryString ? `?${stringify(body.queryString)}` : '';
   return /^https?:\/\//.test(url) ? urlJoin(url, query) : urlJoin(baseUrl, url, query);
 };
 
