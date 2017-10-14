@@ -11,6 +11,7 @@ export default {
   addCvLibraryJobs: createAsyncAction('ADD_CVLIBRARY_JOB', normalizeJobs),
   dismissJobs: createAsyncAction('DISMISS_JOBS'),
   getJobs: createAsyncAction('GET_JOBS', normalizeJobs),
-  toggleJob: createAction('TOGGLE_JOB', payload => [payload]),
+  toggleJob: createAction('TOGGLE_JOB'),
+  toggleFilter: createAction('TOGGLE_FILTER'),
 };
 

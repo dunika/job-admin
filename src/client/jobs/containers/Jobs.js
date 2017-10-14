@@ -13,8 +13,16 @@ const Result = styled.div`
 `;
 
 const Checkbox = styled.input`
-  height: 60px;
-  width: 60px;
+  height: 20px;
+  flex-shrink: 0;
+  width: 20px;
+`;
+
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  margin-bottom: 20px;
 `;
 
 const Job = ({ toggle, isSelected, job }) => (
@@ -27,20 +35,45 @@ const Job = ({ toggle, isSelected, job }) => (
     <div>
       <div>{job.title}</div>
       <div dangerouslySetInnerHTML={{ __html: `${job.description.substr(0, 200)}...` }} />
+      <div>{job.urls.posted}</div>
       <div>{moment(job.date).format('dddd, MMMM, Do')}</div>
     </div>
   </Result>
 );
 
-const Jobs = ({ toggle, selected, jobs }) => (
+const Jobs = ({
+  activeFilters,
+  dismissJobs,
+  jobs,
+  selectedJobs,
+  togglFilter,
+  toggleJob,
+}) => (
   <div>
-    {jobs.map(job => <Job key={job.id} isSelected={selected.includes(job._id)} toggle={toggle} job={job} />)}
+    <Header>
+      <button onClick={dismissJobs}>
+        Dismiss Selected Jobs
+      </button>
+      <div>
+        <Checkbox
+          type="checkbox"
+          checked={activeFilters.includes('posted')}
+          onChange={() => togglFilter('posted')}
+        />
+          Posted To Wordpress
+      </div>
+
+    </Header>
+    {jobs && jobs.map(job => <Job key={`${job._id}`} isSelected={selectedJobs[job._id]} toggle={toggleJob} job={job} />)}
   </div>
 );
 
 export default connectReselect({
-  jobs: selectors.jobs,
-  selected: selectors.selected,
+  activeFilters: selectors.activeFilters,
+  jobs: selectors.filteredJobs,
+  selectedJobs: selectors.selectedJobs,
 }, {
-  toggle: actions.toggleJob,
+  dismissJobs: actions.toggleJob,
+  toggleJob: actions.toggleJob,
+  togglFilter: actions.toggleFilter,
 })(Jobs);

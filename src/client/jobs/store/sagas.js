@@ -35,11 +35,13 @@ const createAsyncSaga = (actionCreator, asyncFunction, args) => {
   return wait;
 };
 
-const getJobs = createAsyncSaga(actions.getJobs, request, ['/api/job', { queryString: {
-  query: JSON.stringify({
-    flag: { $ne: 'dismissed' },
-  }),
-} }]);
+const getJobs = createAsyncSaga(actions.getJobs, request, ['/api/job', {
+  queryString: {
+    query: JSON.stringify({
+      flag: { $ne: 'dismissed' },
+    }),
+  },
+}]);
 const addCvLibraryJobs = createAsyncSaga(actions.addCvLibraryJobs, request, '/api/cv-library/add-jobs');
 
 const dismissJobs = createAsyncSaga(actions.dismissJobs, request.patch, function* () { // eslint-disable-line func-names

@@ -1,11 +1,22 @@
 import { handleActions } from 'redux-actions';
-import { xor } from 'lodash';
 
 import actions from './actions';
 
+function toggleArray(array, item) {
+  const index = array.indexOf(item);
+  if (index !== -1) {
+    return [
+      ...array.slice(0, index),
+      ...array.slice(index + 1),
+    ];
+  }
+  return [...array, item];
+}
+
 const initialState = {
+  activeFilters: [],
   data: null,
-  selected: [],
+  selected: {},
   error: null,
   isLoading: false,
 };
@@ -44,6 +55,15 @@ export default handleActions({ // TODO: research lodash methods for making this 
     },
   })),
   [actions.toggleJob]: (state, { payload }) => ({
-    ...state, selected: xor(state.selected, payload),
+    ...state,
+    selected: {
+      ...state.selected,
+      [payload]: !state.selected,
+    },
+  }),
+  [actions.toggleFilter]: (state, { payload }) => ({
+    ...state,
+    activeFilters: toggleArray(state.activeFilters, payload),
   }),
 }, initialState);
+

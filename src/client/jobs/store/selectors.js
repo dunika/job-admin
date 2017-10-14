@@ -1,16 +1,27 @@
 import { createSelector } from 'reselect';
 import moment from 'moment';
+import { compose } from 'lodash/fp';
 
 const selectJobsState = ({ jobs }) => jobs;
 
-const selectIsLoading = createSelector(
-  selectJobsState,
-  ({ isLoading }) => isLoading,
+const createKeyedDataSelector = (key, selectState) => createSelector(
+  selectState,
+  state => state[key],
 );
 
-const selectSelected = createSelector(
+const selectIsLoading = createKeyedDataSelector('isLoading', selectJobsState);
+
+const selectActiveFilters = createKeyedDataSelector('activeFilters', selectJobsState);
+
+const selectSelectedJobs = createSelector(
   selectJobsState,
-  ({ selected }) => selected,
+  ({ selected }) => (
+    Object.entries(selected)
+      .reduce((results, [key, value]) => ([
+        ...results,
+        ...value ? [key] : [],
+      ]), [])
+  ),
 );
 
 const selectJobs = createSelector(
@@ -20,8 +31,22 @@ const selectJobs = createSelector(
   }) : []),
 );
 
+const filterOperations = {
+  posted: jobs => jobs.filter(({ urls: { posted } }) => !!posted),
+};
+
+const selectFilteredJobs = createSelector(
+  selectJobs,
+  selectActiveFilters,
+  (jobs, activeFilters) => {
+    const filterJobs = compose(...activeFilters.map(filter => filterOperations[filter]));
+    return filterJobs(jobs);
+  },
+);
+
 export default {
+  activeFilters: selectActiveFilters,
   isLoading: selectIsLoading,
-  jobs: selectJobs,
-  selected: selectSelected,
+  filteredJobs: selectFilteredJobs,
+  selectedJobs: selectSelectedJobs,
 };
