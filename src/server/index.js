@@ -17,7 +17,9 @@ const app = next({
 
 const server = express();
 
-server.use(morgan(isDevelopment ? 'dev' : 'combined'));
+server.use(morgan(isDevelopment ? 'dev' : 'combined', {
+  skip: req => req.url.includes('_next'),
+}));
 server.use(bodyParer.json());
 server.use(compression());
 server.use('/api', api());

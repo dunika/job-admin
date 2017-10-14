@@ -43,8 +43,6 @@ ${description}`,
 });
 
 export default async (req, res, next) => {
-  res.status(200).json({ });
-
   try {
     console.log('Fetching jobs from CV Library');
     // const testXml = await readAsync(resolve(__dirname, '../../files/test.xml'));

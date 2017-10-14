@@ -6,7 +6,7 @@ import { get, compose } from 'lodash/fp';
 
 import { baseUrl } from 'config';
 
-const addFormData = (formData) => {
+const addFormData = (formData, options) => {
   const form = new Form();
   Object.entries(formData).forEach(([key, value]) => {
     if (typeof value === 'undefined') {
@@ -15,17 +15,22 @@ const addFormData = (formData) => {
     form.append(key, value);
   });
   return {
+    ...options,
     body: form,
-    method: 'POST',
-    headers: form.getHeaders(),
+    headers: {
+      ...options.headers,
+      ...form.getHeaders(),
+    },
   };
 };
 
-const addJson = (body) => {
+const addJson = (body, options) => {
   try {
     return {
+      ...options,
       body: JSON.stringify(body),
       headers: {
+        ...options.headers,
         'Content-Type': 'application/json',
       },
     };
@@ -55,7 +60,7 @@ const addBody = body => (options) => {
   if (formData) {
     return addFormData(formData);
   }
-  return addJson(body);
+  return addJson(body, options);
 };
 
 const addDefaults = options => ({
@@ -67,9 +72,9 @@ const addDefaults = options => ({
 });
 
 const buildOptions = (body, authToken) => compose(
-  addDefaults,
-  addBody(body),
   addAuth(authToken),
+  addBody(body),
+  addDefaults,
 );
 
 const buildUrl = (url, body) => {
@@ -106,7 +111,7 @@ const request = async (url, body, authToken, options) => {
 
 ['get', 'post', 'put', 'patch', 'delete'].forEach((method) => {
   request[method] = function createMethod(url, body, token, options) {
-    return this(url, body, token, { ...options, method: method.toUpperCase() });
+    return request(url, body, token, { ...options, method: method.toUpperCase() });
   };
 });
 

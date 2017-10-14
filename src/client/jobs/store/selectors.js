@@ -15,9 +15,9 @@ const selectSelected = createSelector(
 
 const selectJobs = createSelector(
   selectJobsState,
-  ({ entities: { jobs }, result }) => result.map(id => jobs[id]).sort((a, b) => { // eslint-disable-line arrow-body-style
+  ({ data }) => (data ? Object.values(data).sort((a, b) => { // eslint-disable-line arrow-body-style
     return moment.utc(a.date).diff(moment.utc(b.date));
-  }),
+  }) : []),
 );
 
 export default {

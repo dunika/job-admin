@@ -4,44 +4,46 @@ import { xor } from 'lodash';
 import actions from './actions';
 
 const initialState = {
-  entities: {
-    jobs: {},
-  },
-  result: [],
+  data: null,
   selected: [],
   error: null,
   isLoading: false,
 };
 
+const createAsyncLeaf = (asyncAction, successHandler) => ({
+  [asyncAction]: state => ({ ...state, isLoading: true }),
+  [asyncAction.failure]: (state, { payload }) => ({
+    ...state,
+    isLoading: false,
+    error: payload,
+  }),
+  [asyncAction.success]: (state, action) => ({
+    ...state,
+    ...successHandler(state, action),
+    isLoading: false,
+  }),
+});
+
 export default handleActions({ // TODO: research lodash methods for making this easier
-  [actions.getJobs]: state => ({ ...state, isLoading: true }),
-  [actions.getJobs.failure]: (state, { payload }) => ({
-    ...state,
-    isLoading: false,
-    error: payload,
-  }),
-  [actions.getJobs.success]: (state, { payload }) => ({
-    ...state,
-    ...payload,
-    isLoading: false,
-  }),
-  [actions.addCvLibraryJobs]: state => ({ ...state, isLoading: true }),
-  [actions.addCvLibraryJobs.failure]: (state, { payload }) => ({
-    ...state,
-    isLoading: false,
-    error: payload,
-  }),
-  [actions.addCvLibraryJobs.success]: (state, { payload: { entities, results } }) => ({
-    ...state,
-    entities: {
-      ...state.entities,
-      ...entities,
+  ...createAsyncLeaf(actions.getJobs, (state, { payload }) => ({
+    data: payload,
+  })),
+  ...createAsyncLeaf(actions.addCvLibraryJobs, ({ data }, { payload }) => ({
+    data: {
+      ...data,
+      ...payload,
     },
-    results: {
-      ...state.results,
-      ...results,
+  })), // TODO Fix this mess with lodash
+  ...createAsyncLeaf(actions.dismissJobs, ({ data }, { payload }) => ({
+    data: {
+      ...Object.keys(data)
+        .filter(id => !payload.includes(id))
+        .reduce((newData, item) => ({
+          ...newData, [item]: data[item],
+        }), {}),
     },
-    isLoading: false,
+  })),
+  [actions.toggleJob]: (state, { payload }) => ({
+    ...state, selected: xor(state.selected, payload),
   }),
-  [actions.toggleJob]: (state, { payload }) => ({ ...state, selected: xor(state.selected, payload) }),
 }, initialState);
