@@ -37,6 +37,6 @@ export function configureStore(initialState = {}) {
   return store;
 }
 
-export function withReduxSaga(Component) {
-  return withRedux(configureStore)(nextReduxSaga(Component));
+export function withReduxSaga(Component, ...rest) {
+  return withRedux(configureStore, ...rest)(nextReduxSaga(Component));
 }

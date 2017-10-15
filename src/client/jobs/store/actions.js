@@ -12,6 +12,7 @@ export default {
   dismissJobs: createAsyncAction('DISMISS_JOBS'),
   getJobs: createAsyncAction('GET_JOBS', normalizeJobs),
   toggleJob: createAction('TOGGLE_JOB'),
-  toggleFilter: createAction('TOGGLE_FILTER'),
+  togglePostedFilter: createAction('TOGGLE_POSTED_FILTER'), // TODO Name this isPosed
+  setLocationFilter: createAction('SET_LOCATION_FILTER'),
 };
 

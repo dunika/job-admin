@@ -1,52 +1,81 @@
 import { createSelector } from 'reselect';
 import moment from 'moment';
-import { compose } from 'lodash/fp';
+import { compose, lowerCase } from 'lodash/fp';
 
-const selectJobsState = ({ jobs }) => jobs;
+const getJobsState = ({ jobs }) => jobs;
 
-const createKeyedDataSelector = (key, selectState) => createSelector(
-  selectState,
+const createKeyedDataSelector = (key, getState) => createSelector(
+  getState,
   state => state[key],
 );
 
-const selectIsLoading = createKeyedDataSelector('isLoading', selectJobsState);
+const getIsLoading = createKeyedDataSelector('isLoading', getJobsState);
 
-const selectActiveFilters = createKeyedDataSelector('activeFilters', selectJobsState);
+const getActiveFilters = createKeyedDataSelector('activeFilters', getJobsState);
 
-const selectSelectedJobs = createSelector(
-  selectJobsState,
-  ({ selected }) => (
-    Object.entries(selected)
-      .reduce((results, [key, value]) => ([
-        ...results,
-        ...value ? [key] : [],
-      ]), [])
-  ),
+const getSelectedJobIds = createKeyedDataSelector('selected', getJobsState);
+
+const getData = createKeyedDataSelector('data', getJobsState);
+
+const getPostedFilter = createKeyedDataSelector('posted', getActiveFilters);
+
+const getLocationFilter = createKeyedDataSelector('location', getActiveFilters);
+
+const getSelectedJobIdsArray = createSelector(
+  getSelectedJobIds,
+  selectedJobIds => Object.entries(selectedJobIds)
+    .reduce((results, [key, value]) => ([
+      ...results,
+      ...value ? [key] : [],
+    ]), []),
 );
 
-const selectJobs = createSelector(
-  selectJobsState,
-  ({ data }) => (data ? Object.values(data).sort((a, b) => { // eslint-disable-line arrow-body-style
+const getSelectedJobs = createSelector(
+  getData,
+  getSelectedJobIdsArray,
+  (data, selectedJobIds) => selectedJobIds.map(key => data[key]),
+);
+
+const getJobs = createSelector(
+  getData,
+  data => (data ? Object.values(data).sort((a, b) => { // eslint-disable-line arrow-body-style
     return moment.utc(a.date).diff(moment.utc(b.date));
   }) : []),
 );
 
-const filterOperations = {
-  posted: jobs => jobs.filter(({ urls: { posted } }) => !!posted),
+const filterOperationBuilders = {
+  posted: posted => jobs => (!posted ? jobs : jobs.filter(({ urls: { posted } }) => !!posted)),
+  location: location => (jobs) => {
+    if (!location) {
+      return jobs;
+    }
+    return jobs.filter(({ location: jobLocation }) => (
+      lowerCase(jobLocation).includes(lowerCase(location))
+    ));
+  },
 };
 
-const selectFilteredJobs = createSelector(
-  selectJobs,
-  selectActiveFilters,
+const getFilteredJobs = createSelector(
+  getJobs,
+  getActiveFilters,
   (jobs, activeFilters) => {
-    const filterJobs = compose(...activeFilters.map(filter => filterOperations[filter]));
+    const filterOperations = Object.keys(activeFilters).map((filterKey) => {
+      const operationBuilder = filterOperationBuilders[filterKey];
+      const operationData = activeFilters[filterKey];
+      const operation = operationBuilder(operationData);
+      return operation;
+    });
+    const filterJobs = compose(...filterOperations);
     return filterJobs(jobs);
   },
 );
 
 export default {
-  activeFilters: selectActiveFilters,
-  isLoading: selectIsLoading,
-  filteredJobs: selectFilteredJobs,
-  selectedJobs: selectSelectedJobs,
+  postedFilter: getPostedFilter,
+  locationFilter: getLocationFilter,
+  isLoading: getIsLoading,
+  filteredJobs: getFilteredJobs,
+  selectedJobs: getSelectedJobs,
+  selectedJobIds: getSelectedJobIds,
+  selectedJobIdsArray: getSelectedJobIdsArray,
 };

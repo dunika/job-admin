@@ -14,7 +14,10 @@ function toggleArray(array, item) {
 }
 
 const initialState = {
-  activeFilters: [],
+  activeFilters: {
+    posted: false,
+    location: '',
+  },
   data: null,
   selected: {},
   error: null,
@@ -58,12 +61,28 @@ export default handleActions({ // TODO: research lodash methods for making this 
     ...state,
     selected: {
       ...state.selected,
-      [payload]: !state.selected,
+      [payload]: !state.selected[payload],
     },
   }),
-  [actions.toggleFilter]: (state, { payload }) => ({
-    ...state,
-    activeFilters: toggleArray(state.activeFilters, payload),
-  }),
+  [actions.togglePostedFilter](state, { payload }) {
+    const { activeFilters } = state;
+    return {
+      ...state,
+      activeFilters: {
+        ...activeFilters,
+        posted: !activeFilters.posted,
+      },
+    };
+  },
+  [actions.setLocationFilter](state, { payload }) {
+    const { activeFilters } = state;
+    return {
+      ...state,
+      activeFilters: {
+        ...activeFilters,
+        location: payload,
+      },
+    };
+  },
 }, initialState);
 

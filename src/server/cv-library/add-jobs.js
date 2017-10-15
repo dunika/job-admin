@@ -6,10 +6,8 @@ import BlueBird from 'bluebird';
 // import fs from 'fs';
 
 import { cvLibraryApi } from 'config';
-import { request } from 'isomorphic';
+import { regions, request } from 'isomorphic';
 import { models } from 'server/database';
-import regions from 'server/shared/regions';
-
 // const readAsync = promisify(fs.readFile);
 
 const sanitizeSalary = (salary) => {

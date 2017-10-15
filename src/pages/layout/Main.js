@@ -5,6 +5,10 @@ import { Link } from 'client/shared/components';
 
 const Container = styled.div``;
 
+const Content = styled.div`
+  padding: 40px 15px;
+`;
+
 const Header = styled.div`
   background-color: #003399;
   padding: 10px 15px;
@@ -12,12 +16,7 @@ const Header = styled.div`
 
 const HeaderLink = styled(Link)`
   color: #FFFFFF;
-  text-decoration: none;
   margin-right: 20px;
-  font-weight: bold;
-  &:hover {
-    text-decoration: underline;
-  }
 `;
 
 const Main = ({ children }) => (
@@ -30,7 +29,9 @@ const Main = ({ children }) => (
         CV Library
       </HeaderLink>
     </Header>
-    {children}
+    <Content>
+      {children}
+    </Content>
   </Container>
 );
 
