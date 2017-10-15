@@ -7,7 +7,7 @@ import { Main } from './layout';
 class App extends Component {
   static async getInitialProps({ store: { dispatch } }) {
     dispatch(jobActions.getJobs());
-    return { dispatch };
+    return {};
   }
 
   render() {

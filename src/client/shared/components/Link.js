@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link as NextLink } from 'routes';
 
-const Link = ({ children, ...props }) => (
-  <NextLink {...props}>
-    <a>
+const Link = ({ children, className, ...otherProps }) => (
+  <NextLink {...otherProps}>
+    <a className={className}>
       {children}
     </a>
   </NextLink>

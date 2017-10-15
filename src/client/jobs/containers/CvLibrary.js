@@ -15,6 +15,7 @@ const CVLibrary = ({ addJobs, isLoading }) => (
 );
 
 export default connectReselect({
-  addJobs: actions.addCvLibraryJobs.request,
   isLoading: selectors.isLoading,
+}, {
+  addJobs: actions.addCvLibraryJobs,
 })(CVLibrary);
