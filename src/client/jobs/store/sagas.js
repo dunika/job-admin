@@ -50,9 +50,9 @@ const dismissJobs = createAsyncSaga(actions.dismissJobs, request.patch, function
   return ['api/job', jobIds.map(id => ({ _id: id, flag: 'dismissed' }))];
 });
 
-const addJobsToWordpress = createAsyncSaga(actions.addJobsToWordpress, request, function* () { // eslint-disable-line func-names
-  const jobIds = yield select(selectors.selected);
-  return ['/api/wordpress/add-jobs', jobIds];
+const addJobsToWordpress = createAsyncSaga(actions.addJobsToWordpress, request.post, function* () { // eslint-disable-line func-names
+  const jobIds = yield select(selectors.selectedJobIdsArray);
+  return ['/api/wordpress/post-jobs', jobIds];
 });
 
 export default [

@@ -48,6 +48,12 @@ export default handleActions({ // TODO: research lodash methods for making this 
       ...payload,
     },
   })), // TODO Fix this mess with lodash
+  ...createAsyncLeaf(actions.addJobsToWordpress, ({ data }, { payload }) => ({
+    data: {
+      ...data,
+      ...payload,
+    },
+  })),
   ...createAsyncLeaf(actions.dismissJobs, ({ data }, { payload }) => ({
     data: {
       ...Object.keys(data)

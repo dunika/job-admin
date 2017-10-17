@@ -1,30 +1,62 @@
-import { Router } from 'express';
 import BlueBird from 'bluebird';
-import restify from 'express-restify-mongoose';
+import request from 'request-promise';
 
-import { models } from '../database';
+import { createPost } from 'config';
+import { models } from 'server/database';
 
-export default () => {
-  const api = Router();
+export default async (req, res, next) => {
+  try {
+    const jobs = await models.Job.find(
+      {
+        _id: {
+          $in: req.body,
+        },
+        'urls.posted': null,
+      },
+      'description urls.source location salary title',
+    );
+    const postedJobs = await BlueBird.map(jobs, async (job) => {
+      const {
+        description,
+        urls: { source },
+        location,
+        salary,
+        title,
+      } = job._doc;
+      try {
+        // TODO: USe our own request module for sending form data once its fixed
+        const response = await request.post({
+          url: createPost.url,
+          json: true,
+          formData: {
+            action: createPost.action,
+            description,
+            location,
+            locationId: location,
+            ...salary && { salary },
+            title,
+            url: source,
+          },
+        });
+        console.log(response.url);
+        if (response.url) {
+          console.log(`Succesfully posted to ${response.url}`);
+          job.urls.posted = response.url;
+          const addedJob = await job.save();
+          return addedJob;
+        }
+        console.error(`Failed to post - ${response}`);
+        return { error: response };
+      } catch (error) {
+        console.error(error);
+        return { error };
+      }
+    }, { concurrency: 1 });
 
-  restify.serve(api, models.Job, {
-    name: 'job',
-    prefix: '',
-    version: '',
-  });
-
-  api.patch('/job', async (req, res, next) => {
-    try {
-      const updatedJobs = await BlueBird.map(req.body, async ({ _id, ...data }) => {
-        const updatedJob = await models.Job.findByIdAndUpdate({ _id }, { $set: { ...data } });
-        return updatedJob;
-      });
-      res.status(200).json(updatedJobs.map(({ _id }) => _id));
-    } catch (error) {
-      console.log(error);
-      next(error);
-    }
-  });
-
-  return api;
+    console.log('Finished creating job posts');
+    res.status(200).json([...postedJobs.filter(({ error }) => !error)]);
+    return;
+  } catch (error) {
+    next(error);
+  }
 };

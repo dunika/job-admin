@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch';
-import Form from 'isomorphic-form-data';
+import Form from 'form-data';
 import urlJoin from 'url-join';
 import { stringify } from 'query-string';
 import { compose } from 'lodash/fp';
@@ -16,9 +16,9 @@ const addFormData = (formData, options) => {
   });
   return {
     ...options,
-    body: form,
+    formData: form,
     headers: {
-      ...options.headers,
+      ...options && options.headers,
       ...form.getHeaders(),
     },
   };
@@ -46,7 +46,7 @@ const addAuth = authToken => (options) => {
   return {
     ...options,
     headers: {
-      ...options.headers,
+      ...options && options.headers,
       Authorization: `Bearer ${authToken}`,
     },
   };
@@ -97,6 +97,7 @@ const handleError = async (response) => {
 
 const request = async (url, body, authToken, options) => {
   try {
+    console.log(url);
     const requestOptions = buildOptions(body, authToken)(options);
     const requestUrl = buildUrl(url, body);
     const response = await fetch(requestUrl, requestOptions);

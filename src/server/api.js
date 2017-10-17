@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import { api as job } from 'server/job';
+import { api as wordpress } from 'server/wordpress';
 import { api as cvLibrary } from 'server/cv-library';
 
 export default () => {
@@ -8,6 +9,7 @@ export default () => {
 
   api.use('/', job());
   api.use('/', cvLibrary());
+  api.use('/', wordpress());
 
   api.use((error, req, res, next) => {
     console.log(error);

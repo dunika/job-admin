@@ -71,7 +71,7 @@ const Job = ({ showFullDescription, toggle, isSelected, job }) => (
       >
         <Checkbox
           type="checkbox"
-          checked={isSelected}
+          checked={!!isSelected}
         />
       </CheckboxArea>}
       <div>
