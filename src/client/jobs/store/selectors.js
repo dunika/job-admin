@@ -1,13 +1,9 @@
 import { createSelector } from 'reselect';
 import moment from 'moment';
 import { compose, lowerCase } from 'lodash/fp';
+import { createKeyedDataSelector } from 'client/shared/utils';
 
 const getJobsState = ({ jobs }) => jobs;
-
-const createKeyedDataSelector = (key, getState) => createSelector(
-  getState,
-  state => state[key],
-);
 
 const getIsLoading = createKeyedDataSelector('isLoading', getJobsState);
 

@@ -1,13 +1,12 @@
-import { createAction } from 'redux-actions';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
+export const toggleArray(array, item) {
+  const index = array.indexOf(item);
+  if (index !== -1) {
+    return [
+      ...array.slice(0, index),
+      ...array.slice(index + 1),
+    ];
+  }
+  return [...array, item];
+}
 
-export const createAsyncAction = (name, payloadCreator) => {
-  const actionCreator = createAction(`${name}@ASYNC_REQUEST`);
-  actionCreator.failure = createAction(`${name}@ASYNC_FAILURE`);
-  actionCreator.success = createAction(`${name}@ASYNC_SUCCESS`, payloadCreator);
-  return actionCreator;
-};
-
-export const connectReselect = (selectors, ...rest) =>
-  connect(createStructuredSelector(selectors), ...rest);
+export * from './redux'

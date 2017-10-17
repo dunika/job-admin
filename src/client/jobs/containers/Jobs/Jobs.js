@@ -10,7 +10,7 @@ import Filters from './Filters';
 const Container = styled.div`
   ${({ isLoading }) => isLoading && `
     opacity: 0.5;
-    pointer-events: none; 
+    pointer-events: none;
     overflow: hidden;
   `}
 `;
@@ -42,7 +42,14 @@ const Jobs = ({
   <Container isLoading={isLoading}>
     <Flex justify="space-between">
       <Results>
-        {jobs.map(job => <Job key={`${job._id}`} isSelected={selectedJobIds[job._id]} toggle={toggleJob} job={job} />)}
+        {jobs.map(job => (
+          <Job
+            key={`${job._id}`}
+            isSelected={selectedJobIds[job._id]}
+            toggle={toggleJob}
+            job={job}
+          />),
+        )}
       </Results>
       <Filters />
     </Flex>
