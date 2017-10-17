@@ -13,7 +13,6 @@ export default async (req, res, next) => {
         },
         'urls.posted': null,
       },
-      'description urls.source location salary title',
     );
     const postedJobs = await BlueBird.map(jobs, async (job) => {
       const {
@@ -38,7 +37,6 @@ export default async (req, res, next) => {
             url: source,
           },
         });
-        console.log(response.url);
         if (response.url) {
           console.log(`Succesfully posted to ${response.url}`);
           job.urls.posted = response.url;

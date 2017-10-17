@@ -16,7 +16,7 @@ const addFormData = (formData, options) => {
   });
   return {
     ...options,
-    formData: form,
+    body: form,
     headers: {
       ...options && options.headers,
       ...form.getHeaders(),
@@ -97,7 +97,6 @@ const handleError = async (response) => {
 
 const request = async (url, body, authToken, options) => {
   try {
-    console.log(url);
     const requestOptions = buildOptions(body, authToken)(options);
     const requestUrl = buildUrl(url, body);
     const response = await fetch(requestUrl, requestOptions);

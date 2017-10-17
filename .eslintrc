@@ -11,7 +11,8 @@
     "react/jsx-filename-extension": "off",
     "jsx-a11y/href-no-hash": "off",
     "no-underscore-dangle":"off",
-    "no-debugger":"off"
+    "no-debugger":"off",
+    "react/prop-types": "off"
   },
   "settings": {
     "import/resolver": {

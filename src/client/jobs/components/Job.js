@@ -62,7 +62,7 @@ const CheckboxArea = styled.div`
   `}
 `;
 
-const Job = ({ showFullDescription, toggle, isSelected, job }) => (
+const Job = ({ shouldOpenPostJob, showFullDescription, toggle, isSelected, job }) => (
   <Result>
     <Flex>
       {toggle && <CheckboxArea
@@ -75,7 +75,7 @@ const Job = ({ showFullDescription, toggle, isSelected, job }) => (
         />
       </CheckboxArea>}
       <div>
-        <Title to={`/jobs/${job._id}`} shallow>
+        <Title to={`/${shouldOpenPostJob ? 'post-job' : 'jobs'}/${job._id}`} shallow>
           {job.title}
         </Title>
         <Flex>
@@ -94,9 +94,12 @@ const Job = ({ showFullDescription, toggle, isSelected, job }) => (
             __html: `${showFullDescription ? job.description : `${job.description.substr(0, 100)}...`}`,
           }}
         />
-        <PostedStatus isPosted={job.urls.posted}>
+        {job.urls.source && <a target="_blank" href={job.urls.source}>
+          View Source
+        </a>}
+        {job.urls.posted && <PostedStatus isPosted={job.urls.posted}>
           {job.urls.posted ? 'Posted' : 'Not posted'}
-        </PostedStatus>
+        </PostedStatus>}
         {job.urls.posted && <PostedUrl target="_blank" href={job.urls.posted}>
           {job.urls.posted}
         </PostedUrl>}

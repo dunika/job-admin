@@ -7,9 +7,11 @@ import { createLogger } from 'redux-logger';
 
 import { isDevelopment, isServer } from 'isomorphic';
 import { reducer as jobs } from 'client/jobs';
+import { reducer as indeed } from 'client/indeed';
 import rootSaga from './saga';
 
 const reducer = combineReducers({
+  indeed,
   jobs,
 });
 

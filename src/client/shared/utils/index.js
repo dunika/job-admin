@@ -1,4 +1,4 @@
-export const toggleArray(array, item) {
+export const toggleArray = (array, item) => {
   const index = array.indexOf(item);
   if (index !== -1) {
     return [
@@ -7,6 +7,6 @@ export const toggleArray(array, item) {
     ];
   }
   return [...array, item];
-}
+};
 
-export * from './redux'
+export * from './redux';

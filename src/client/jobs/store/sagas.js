@@ -7,6 +7,14 @@ import actions from './actions';
 
 const addCvLibraryJobs = createAsyncSaga(actions.addCvLibraryJobs, request, '/api/cv-library/add-jobs');
 
+const getJobs = createAsyncSaga(actions.getJobs, request, ['/api/job', {
+  queryString: {
+    query: JSON.stringify({
+      flag: { $ne: 'dismissed' },
+    }),
+  },
+}]);
+
 const dismissJobs = createAsyncSaga(actions.dismissJobs, request.patch, function* () { // eslint-disable-line func-names
   const jobIds = yield select(selectors.selectedJobIdsArray);
   return ['api/job', jobIds.map(id => ({ _id: id, flag: 'dismissed' }))];
