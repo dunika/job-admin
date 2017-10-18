@@ -1,5 +1,5 @@
 node_modules
 .next
 .vscode
-
+/dist
 src/server/config.js

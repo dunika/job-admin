@@ -1,12 +1,9 @@
 {
   "presets": [
     "next/babel",
-    "es2015",
     "stage-0"
   ],
   "plugins": [
-    "transform-export-extensions",
-    "syntax-export-extensions",
     [ "styled-components", { "ssr": true } ], 
     "transform-flow-strip-types", [ 
       "module-resolver", { 

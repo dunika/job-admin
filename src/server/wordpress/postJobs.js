@@ -4,7 +4,7 @@ import request from 'request-promise';
 import { createPost } from 'config';
 
 const postJobs = async (jobs) => {
-  const postedJobs = await BlueBird.map(Array.isArray ? jobs : [jobs], async (job) => {
+  const postedJobs = await BlueBird.map(Array.isArray(jobs) ? jobs : [jobs], async (job) => {
     const {
       description,
       urls: { source },

@@ -61,6 +61,9 @@ const enhance = compose(
     addJob: ({ addJobToWordpress, job, descriptionInput, salaryInput }) => () => {
       addJobToWordpress({
         ...job,
+        urls: {
+          source: job.urls.nonSponsoredSource,
+        },
         description: descriptionInput.value,
         salary: salaryInput.value,
       });

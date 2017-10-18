@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --ignore src/.next/ --ignore src/pages/ --ignore src/client --exec babel-node src/server --verbose",
-    "build": "next build src",
-    "start": "next start"
+    "build": "next build src && babel src/server -d dist --presets es2015,stage-0",
+    "build-dist": "next build dist",
+    "start": "cross-env NODE_ENV=production node dist/server"
   },
   "repository": {
     "type": "git",
@@ -51,6 +52,7 @@
     "redux-devtools-extension": "^2.13.2",
     "redux-logger": "^3.0.6",
     "redux-saga": "^0.15.6",
+    "request": "^2.83.0",
     "request-promise": "^4.2.2",
     "reselect": "^3.0.1",
     "styled-components": "^2.1.2",
