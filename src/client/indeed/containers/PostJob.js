@@ -22,7 +22,7 @@ const Results = styled.div`
 const PostJob = ({
   descriptionRef,
   salaryRef,
-  addJobToWordpress,
+  addJob, // renamce add job to post job
   isLoading,
   job,
 }) => (
@@ -36,9 +36,9 @@ const PostJob = ({
     <Flex col>
       <input placeholder="Salary" ref={salaryRef} />
       <br />
-      <textarea placeholder="Description" ref={descriptionRef} />
+      <textarea rows="10" placeholder="Description" ref={descriptionRef} />
       <br />
-      <button onClick={addJobToWordpress}>Post Job</button>
+      <button onClick={addJob}>Post Job</button>
     </Flex>
   </Container>
 );
@@ -58,9 +58,10 @@ const enhance = compose(
     addJobToWordpress: actions.addJobToWordpress,
   }),
   withHandlers({
-    handleSearch: ({ search, descriptionInput, salaryInput }) => () => {
-      search({
-        descriptions: descriptionInput.value,
+    addJob: ({ addJobToWordpress, job, descriptionInput, salaryInput }) => () => {
+      addJobToWordpress({
+        ...job,
+        description: descriptionInput.value,
         salary: salaryInput.value,
       });
     },

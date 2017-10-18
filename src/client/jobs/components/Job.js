@@ -62,6 +62,10 @@ const CheckboxArea = styled.div`
   `}
 `;
 
+const Source = styled.a`
+  margin-right: 10px;
+`;
+
 const Job = ({ shouldOpenPostJob, showFullDescription, toggle, isSelected, job }) => (
   <Result>
     <Flex>
@@ -89,14 +93,26 @@ const Job = ({ shouldOpenPostJob, showFullDescription, toggle, isSelected, job }
             {job.location}
           </Info>
         </Flex>
+        {job.fullAddress && job.fullAddress !== job.location && (
+          <p
+            style={{ fontSize: 12 }}
+          >
+            <strong>
+            Full address: {job.fullAddress}
+            </strong>
+          </p>
+        )}
         <Description
           dangerouslySetInnerHTML={{
             __html: `${showFullDescription ? job.description : `${job.description.substr(0, 100)}...`}`,
           }}
         />
-        {job.urls.source && <a target="_blank" href={job.urls.source}>
+        {job.urls.source && <Source
+          target="_blank"
+          href={job.urls.nonSponsoredSource || job.urls.source}
+        >
           View Source
-        </a>}
+        </Source>}
         {job.urls.posted && <PostedStatus isPosted={job.urls.posted}>
           {job.urls.posted ? 'Posted' : 'Not posted'}
         </PostedStatus>}

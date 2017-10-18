@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect';
-import moment from 'moment';
 import { createKeyedDataSelector } from 'client/shared/utils';
 
 const getJobsState = ({ indeed }) => indeed;

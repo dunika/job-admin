@@ -10,6 +10,7 @@ const addCvLibraryJobs = createAsyncSaga(actions.addCvLibraryJobs, request, '/ap
 const getJobs = createAsyncSaga(actions.getJobs, request, ['/api/job', {
   queryString: {
     query: JSON.stringify({
+      source: 'cv-library',
       flag: { $ne: 'dismissed' },
     }),
   },

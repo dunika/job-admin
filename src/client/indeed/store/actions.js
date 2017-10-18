@@ -1,15 +1,26 @@
 import { createAsyncAction } from 'client/shared/utils';
-import { parse } from 'query-string';
+import { regions } from 'isomorphic';
 
-const normalizeJobs = data => data.reduce((results, { snippet, jobtitle, formattedLocation, ...rest }) => ({
+const getLocation = (location) => {
+  const regex = new RegExp(location.replace(',', '').split(' ').join('|'));
+  return regions.find(region => regex.test(region));
+};
+
+// TODO: Move the main normalization to server
+// TODO: Rename location to region
+const normalizeJobs = data => data.reduce((results, { snippet, jobtitle, formattedLocationFull, ...rest }) => ({
   ...results,
   [rest.jobkey]: {
     _id: rest.jobkey,
+    source: 'indeed',
+    sourceId: rest.jobkey,
     title: jobtitle,
     description: snippet,
-    location: formattedLocation,
+    fullAddress: formattedLocationFull,
+    location: getLocation(formattedLocationFull),
     urls: {
-      source: `https://ie.indeed.com/rc/clk?jk=${rest.jobkey}`,
+      nonSponsoredSource: `https://ie.indeed.com/rc/clk?jk=${rest.jobkey}`,
+      source: rest.url,
     },
     ...rest,
   },
