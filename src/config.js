@@ -10,7 +10,7 @@ if (process.env.NODE_ENV !== 'production') {
   };
 } else {
   module.exports = {
-    baseUrl: process.env.BASE_URL,
+    baseUrl: 'https://arcane-atoll-76898.herokuapp.com',
     cvLibraryApi: 'http://www.cv-library.co.uk/cgi-bin/feed.xml?affid=102765&roi=1',
     createPost: {
       url: process.env.CREATE_POST_URL,
