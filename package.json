@@ -11,7 +11,7 @@
     "dev": "nodemon --ignore src/.next/ --ignore src/pages/ --ignore src/client --exec babel-node src/server --verbose",
     "build-next": "next build dist",
     "start": "node src/server",
-    "postinstall": "babel src --presets es2015,stage-0 && next build src"
+    "postinstall": "./build.sh"
   },
   "repository": {
     "type": "git",
