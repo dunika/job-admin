@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "nodemon --ignore src/.next/ --ignore src/pages/ --ignore src/client --exec babel-node src/server --verbose",
     "build-next": "next build dist",
-    "start": "node src/server",
+    "start": "node dist/server",
     "postinstall": "./build.sh"
   },
   "repository": {
