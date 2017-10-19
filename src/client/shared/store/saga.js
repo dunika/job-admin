@@ -4,6 +4,7 @@ import { sagas as jobSagas } from 'client/jobs';
 
 function handleErrors({ payload }) {
   alert(payload);
+  console.log(JSON.stringify(process.env));
   console.log(payload);
 }
 
