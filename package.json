@@ -11,7 +11,7 @@
     "dev": "nodemon --ignore src/.next/ --ignore src/pages/ --ignore src/client --exec babel-node src/server --verbose",
     "build-next": "next build dist",
     "start": "node dist/server",
-    "build": "./build.sh"
+    "build": "./build.sh && npm run build-next"
   },
   "repository": {
     "type": "git",

@@ -1,0 +1,6 @@
+
+          window.__NEXT_REGISTER_PAGE('/layout/Main', function() {
+            var comp = module.exports=webpackJsonp([5],{883:function(e,t,n){e.exports=n(884)},884:function(e,t,n){"use strict";function a(e){return e&&e.__esModule?e:{default:e}}Object.defineProperty(t,"__esModule",{value:!0});var l=n(2),d=a(l),o=n(29),i=a(o),r=n(65),u=i.default.div.withConfig({displayName:"Main__Container",componentId:"s1tv94jq-0"})([""]),c=i.default.div.withConfig({displayName:"Main__Content",componentId:"s1tv94jq-1"})(["padding:40px 15px;"]),f=i.default.div.withConfig({displayName:"Main__Header",componentId:"s1tv94jq-2"})(["background-color:#003399;padding:10px 15px;"]),p=(0,i.default)(r.Link).withConfig({displayName:"Main__HeaderLink",componentId:"s1tv94jq-3"})(["color:#FFFFFF;margin-right:20px;"]),s=function(e){var t=e.children;return d.default.createElement(u,null,d.default.createElement(f,null,d.default.createElement(p,{to:"/",shallow:!0},"Jobs"),d.default.createElement(p,{to:"/cv-library",shallow:!0},"CV Library"),d.default.createElement(p,{to:"/indeed",shallow:!0},"Indeed")),d.default.createElement(c,null,t))};t.default=s}},[883]);
+            return { page: comp.default }
+          })
+        
