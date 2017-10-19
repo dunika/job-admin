@@ -9,10 +9,9 @@
   },
   "scripts": {
     "dev": "nodemon --ignore src/.next/ --ignore src/pages/ --ignore src/client --exec babel-node src/server --verbose",
-    "build": "next build src && babel src/server -d dist --presets es2015,stage-0",
     "build-dist": "next build dist",
     "start": "node dist/server",
-    "build-dist": "./build.sh"
+    "build": "./build.sh"
   },
   "repository": {
     "type": "git",
