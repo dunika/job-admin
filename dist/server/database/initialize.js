@@ -22,8 +22,6 @@ var _mongoose2 = _interopRequireDefault(_mongoose);
 
 var _config = require('../../config');
 
-var _config2 = _interopRequireDefault(_config);
-
 var _isomorphic = require('../../isomorphic');
 
 var _Job = require('./Job');
@@ -37,32 +35,34 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _mongoose2.default.Promise = _promise2.default;
 
 exports.default = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+  var connection;
   return _regenerator2.default.wrap(function _callee$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.prev = 0;
-          _context.next = 3;
-          return _mongoose2.default.connect(_config2.default.database, {
+          connection = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || _config.database;
+          _context.next = 4;
+          return _mongoose2.default.connect(connection, {
             config: { autoIndex: !_isomorphic.isDevelopment }
           });
 
-        case 3:
+        case 4:
           console.log('Connected to database');
-          _context.next = 9;
+          _context.next = 10;
           break;
 
-        case 6:
-          _context.prev = 6;
+        case 7:
+          _context.prev = 7;
           _context.t0 = _context['catch'](0);
           throw new Error(_context.t0);
 
-        case 9:
+        case 10:
         case 'end':
           return _context.stop();
       }
     }
-  }, _callee, undefined, [[0, 6]]);
+  }, _callee, undefined, [[0, 7]]);
 }));
 
 
