@@ -8,7 +8,7 @@ mongoose.Promise = Promise;
 
 export default async () => {
   try {
-    const connection = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || database;
+    const connection = database;
     await mongoose.connect(connection, {
       config: { autoIndex: !isDevelopment },
     });

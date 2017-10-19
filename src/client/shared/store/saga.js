@@ -3,6 +3,7 @@ import { sagas as indeedSagas } from 'client/indeed';
 import { sagas as jobSagas } from 'client/jobs';
 
 function handleErrors({ payload }) {
+  alert(payload);
   console.log(payload);
 }
 
