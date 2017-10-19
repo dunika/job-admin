@@ -4,7 +4,7 @@ import request from 'request-promise';
 const getIp = (req) => {
   const xForwarded = req.headers['x-forwarded-for'];
   if (xForwarded) {
-    return xForwarded.split(',')[0].join().trim();
+    return xForwarded.split(',')[0].trim();
   }
   return req.connection.remoteAddress ||
     req.socket.remoteAddress ||
