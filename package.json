@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "nodemon --ignore src/.next/ --ignore src/pages/ --ignore src/client --exec babel-node src/server --verbose",
-    "build-dist": "next build dist",
+    "build-next": "next build dist",
     "start": "node dist/server",
     "build": "./build.sh"
   },
