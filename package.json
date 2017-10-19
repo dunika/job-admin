@@ -11,7 +11,7 @@
     "dev": "nodemon --ignore src/.next/ --ignore src/pages/ --ignore src/client --exec babel-node src/server --verbose",
     "build": "next build src && babel src/server -d dist --presets es2015,stage-0",
     "build-dist": "next build dist",
-    "start": "cross-env NODE_ENV=production node dist/server",
+    "start": "node dist/server",
     "postinstall": "./build.sh"
   },
   "repository": {
