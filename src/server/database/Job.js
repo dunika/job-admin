@@ -7,10 +7,6 @@ const schema = new Schema({
     type: Date,
   },
   description: String,
-  listingId: {
-    type: String,
-    unique: true,
-  },
   flag: String,
   location: String,
   salary: String,
