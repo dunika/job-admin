@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-import config from 'config';
+import { database } from 'config';
 import { isDevelopment } from 'isomorphic';
 import Job from './Job'; // eslint-disable-line no-unused-vars
 
@@ -8,7 +8,8 @@ mongoose.Promise = Promise;
 
 export default async () => {
   try {
-    await mongoose.connect(config.database, {
+    const connection = database;
+    await mongoose.connect(connection, {
       config: { autoIndex: !isDevelopment },
     });
     console.log('Connected to database');

@@ -3,10 +3,15 @@
   "version": "0.0.1",
   "description": "Interface for adding jobs, creating posts and posting to Facebook",
   "main": "index.js",
+  "engines": {
+    "node": "^8.4.0",
+    "npm": "^5.4.2"
+  },
   "scripts": {
     "dev": "nodemon --ignore src/.next/ --ignore src/pages/ --ignore src/client --exec babel-node src/server --verbose",
-    "build": "next build src",
-    "start": "next start"
+    "build-next-dist": "next build dist",
+    "start": "node dist/server",
+    "postinstall": "./build.sh"
   },
   "repository": {
     "type": "git",
@@ -29,6 +34,7 @@
     "compression": "^1.7.0",
     "express": "^4.15.4",
     "express-restify-mongoose": "^4.2.1",
+    "form-data": "^2.3.1",
     "isomorphic-fetch": "^2.2.1",
     "isomorphic-form-data": "^1.0.0",
     "lodash": "^4.17.4",
@@ -50,6 +56,8 @@
     "redux-devtools-extension": "^2.13.2",
     "redux-logger": "^3.0.6",
     "redux-saga": "^0.15.6",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
     "reselect": "^3.0.1",
     "styled-components": "^2.1.2",
     "url-join": "^2.0.2",

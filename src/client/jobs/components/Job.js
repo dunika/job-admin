@@ -62,7 +62,11 @@ const CheckboxArea = styled.div`
   `}
 `;
 
-const Job = ({ showFullDescription, toggle, isSelected, job }) => (
+const Source = styled.a`
+  margin-right: 10px;
+`;
+
+const Job = ({ shouldOpenPostJob, showFullDescription, toggle, isSelected, job }) => (
   <Result>
     <Flex>
       {toggle && <CheckboxArea
@@ -71,11 +75,11 @@ const Job = ({ showFullDescription, toggle, isSelected, job }) => (
       >
         <Checkbox
           type="checkbox"
-          checked={isSelected}
+          checked={!!isSelected}
         />
       </CheckboxArea>}
       <div>
-        <Title to={`/jobs/${job._id}`} shallow>
+        <Title to={`/${shouldOpenPostJob ? 'post-job' : 'jobs'}/${job._id}`} shallow>
           {job.title}
         </Title>
         <Flex>
@@ -89,14 +93,29 @@ const Job = ({ showFullDescription, toggle, isSelected, job }) => (
             {job.location}
           </Info>
         </Flex>
+        {job.fullAddress && job.fullAddress !== job.location && (
+          <p
+            style={{ fontSize: 12 }}
+          >
+            <strong>
+            Full address: {job.fullAddress}
+            </strong>
+          </p>
+        )}
         <Description
           dangerouslySetInnerHTML={{
             __html: `${showFullDescription ? job.description : `${job.description.substr(0, 100)}...`}`,
           }}
         />
-        <PostedStatus isPosted={job.urls.posted}>
+        {job.urls.source && <Source
+          target="_blank"
+          href={job.urls.nonSponsoredSource || job.urls.source}
+        >
+          View Source
+        </Source>}
+        {job.urls.posted && <PostedStatus isPosted={job.urls.posted}>
           {job.urls.posted ? 'Posted' : 'Not posted'}
-        </PostedStatus>
+        </PostedStatus>}
         {job.urls.posted && <PostedUrl target="_blank" href={job.urls.posted}>
           {job.urls.posted}
         </PostedUrl>}

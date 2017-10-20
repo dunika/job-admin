@@ -28,6 +28,9 @@ const Main = ({ children }) => (
       <HeaderLink to="/cv-library" shallow>
         CV Library
       </HeaderLink>
+      <HeaderLink to="/indeed" shallow>
+        Indeed
+      </HeaderLink>
     </Header>
     <Content>
       {children}

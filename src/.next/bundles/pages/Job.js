@@ -1,0 +1,6 @@
+
+          window.__NEXT_REGISTER_PAGE('/Job', function() {
+            var comp = module.exports=webpackJsonp([8],{879:function(t,e,n){t.exports=n(880)},880:function(t,e,n){"use strict";function u(t){return t&&t.__esModule?t:{default:t}}Object.defineProperty(e,"__esModule",{value:!0});var r=n(39),a=u(r),o=n(59),i=u(o),s=n(16),l=u(s),d=n(8),f=u(d),c=n(9),p=u(c),b=n(17),h=u(b),_=n(18),j=u(_),v=n(2),y=u(v),g=n(64),m=n(117),w=n(118),k=function(t){function e(){return(0,f.default)(this,e),(0,h.default)(this,(e.__proto__||(0,l.default)(e)).apply(this,arguments))}return(0,j.default)(e,t),(0,p.default)(e,[{key:"render",value:function(){return y.default.createElement(w.Main,null,y.default.createElement(g.Job,{job:this.props.job,showFullDescription:!0}))}}],[{key:"getInitialProps",value:function(){function t(t){return e.apply(this,arguments)}var e=(0,i.default)(a.default.mark(function t(e){var n,u,r,o=e.store,i=o.dispatch,s=o.getState,l=e.query.id;return a.default.wrap(function(t){for(;;)switch(t.prev=t.next){case 0:return n=s(),u=n.jobs.data,u||(r=i(g.actions.getJobs()),i(g.actions.getJobs()),u=s().jobs.data),t.abrupt("return",{id:l});case 3:case"end":return t.stop()}},t,this)}));return t}()}]),e}(v.Component);e.default=(0,m.withReduxSaga)(k,function(t,e){return{job:t.jobs.data[e.id]}})}},[879]);
+            return { page: comp.default }
+          })
+        
