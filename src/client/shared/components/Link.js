@@ -9,7 +9,6 @@ const A = styled.a`
   }
 `;
 
-
 const Link = ({ children, className, ...otherProps }) => (
   <NextLink {...otherProps}>
     <A href={otherProps.to} className={className}>

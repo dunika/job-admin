@@ -15,9 +15,7 @@ const initialState = {
 };
 
 export default handleActions({ // TODO: research lodash methods for making this easier
-  ...createAsyncLeaf(actions.getJobs, (state, { payload }) => ({
-    data: payload,
-  })),
+  ...createAsyncLeaf(actions.getJobs),
   ...createAsyncLeaf(actions.addCvLibraryJobs, ({ data }, { payload }) => ({
     data: {
       ...data,
@@ -40,7 +38,7 @@ export default handleActions({ // TODO: research lodash methods for making this 
       [payload]: !state.selected[payload],
     },
   }),
-  [actions.togglePostedFilter](state) {
+  [actions.togglePostedFilter](state, { payload }) {
     const { activeFilters } = state;
     return {
       ...state,
@@ -61,4 +59,3 @@ export default handleActions({ // TODO: research lodash methods for making this 
     };
   },
 }, initialState);
-
