@@ -14,23 +14,22 @@ const initialState = {
   isLoading: false,
 };
 
+
 export default handleActions({ // TODO: research lodash methods for making this easier
-  ...createAsyncLeaf(actions.getJobs, (state, { payload }) => ({
-    data: payload,
-  })),
-  ...createAsyncLeaf(actions.addCvLibraryJobs, ({ data }, { payload }) => ({
-    data: {
-      ...data,
-      ...payload,
-    },
-  })), // TODO Fix this mess with lodash
-  ...createAsyncLeaf(actions.addJobsToWordpress, ({ data }, { payload }) => ({
+  [actions.getJobs]: createAsyncLeaf(),
+  [actions.addCvLibraryJobs]: createAsyncLeaf(({ data }, { payload }) => ({
     data: {
       ...data,
       ...payload,
     },
   })),
-  ...createAsyncLeaf(actions.dismissJobs, ({ data }, { payload }) => ({
+  [actions.addJobsToWordpress]: createAsyncLeaf(({ data }, { payload }) => ({
+    data: {
+      ...data,
+      ...payload,
+    },
+  })),
+  [actions.dismissJobs]: createAsyncLeaf(({ data }, { payload }) => ({
     data: {
       ...Object.keys(data)
         .filter(id => !payload.includes(id))
@@ -67,4 +66,3 @@ export default handleActions({ // TODO: research lodash methods for making this 
     };
   },
 }, initialState);
-
