@@ -5,10 +5,22 @@ import { createAction } from 'redux-actions';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { isFunction } from 'lodash';
 
+const [
+  ASYNC_REQUEST_SUFFIX,
+  ASYNC_FAILURE_SUFFIX,
+  ASYNC_SUCCESS_SUFFIX,
+] = ['REQUEST', 'FAILURE', 'SUCCESS'].reduce((results, action) => [...results, `@ASYNC_${action}`]);
+
 export const createAsyncAction = (name, payloadCreator) => {
-  const actionCreator = createAction(`${name}@ASYNC_REQUEST`);
-  actionCreator.failure = createAction(`${name}@ASYNC_FAILURE`);
-  actionCreator.success = createAction(`${name}@ASYNC_SUCCESS`, payloadCreator);
+  const actionCreator = (payload) => {
+    const request = createAction(`${name}${ASYNC_REQUEST_SUFFIX}`);
+    return request(payload);
+  };
+  actionCreator.failure = createAction(`${name}${ASYNC_FAILURE_SUFFIX}`);
+  actionCreator.success = createAction(`${name}${ASYNC_SUCCESS_SUFFIX}`, payloadCreator);
+
+  actionCreator.toString = () => name;
+
   return actionCreator;
 };
 
@@ -43,14 +55,14 @@ export const createAsyncSaga = (actionCreator, asyncFunction, args) => {
 
 const defaultSuccessHandler = (state, { payload }) => ({ data: payload });
 
-export const createAsyncLeaf = (asyncAction, successHandler = defaultSuccessHandler) => ({
-  [asyncAction]: state => ({ ...state, isLoading: true }),
-  [asyncAction.failure]: (state, { payload }) => ({
+export const createAsyncLeaf = (successHandler = defaultSuccessHandler) => ({
+  [ASYNC_REQUEST_SUFFIX]: state => ({ ...state, isLoading: true }),
+  [ASYNC_FAILURE_SUFFIX]: (state, { payload }) => ({
     ...state,
     isLoading: false,
     error: payload,
   }),
-  [asyncAction.success]: (state, action) => ({
+  [ASYNC_SUCCESS_SUFFIX]: (state, action) => ({
     ...state,
     ...successHandler(state, action),
     isLoading: false,
