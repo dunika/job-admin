@@ -14,6 +14,7 @@ const initialState = {
   isLoading: false,
 };
 
+
 export default handleActions({ // TODO: research lodash methods for making this easier
   [actions.getJobs]: createAsyncLeaf(),
   [actions.addCvLibraryJobs]: createAsyncLeaf(({ data }, { payload }) => ({
