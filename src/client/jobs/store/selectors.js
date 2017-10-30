@@ -35,7 +35,8 @@ const getSelectedJobs = createSelector(
 const getJobs = createSelector(
   getData,
   data => (data ? Object.values(data).sort((a, b) => { // eslint-disable-line arrow-body-style
-    return moment.utc(a.date).diff(moment.utc(b.date));
+    console.log('asdf');
+    return moment.utc(b.date).diff(moment.utc(a.date));
   }) : []),
 );
 
