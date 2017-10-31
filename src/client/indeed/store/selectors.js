@@ -1,11 +1,11 @@
 import { createSelector } from 'reselect';
-import { createKeyedDataSelector } from 'client/shared/utils';
+import { createKeyedSelector } from 'client/shared/utils';
 
 const getJobsState = ({ indeed }) => indeed;
 
-const getIsLoading = createKeyedDataSelector('isLoading', getJobsState);
+const getIsLoading = createKeyedSelector('isLoading', getJobsState);
 
-const getData = createKeyedDataSelector('data', getJobsState);
+const getData = createKeyedSelector('data', getJobsState);
 
 const getJobs = createSelector(
   getData,

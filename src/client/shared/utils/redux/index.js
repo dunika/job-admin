@@ -38,7 +38,7 @@ export const createAsyncLeaf = (successHandler = defaultSuccessHandler) => ({
   }),
 });
 
-export const createKeyedDataSelector = (key, getState) => createSelector(
+export const createKeyedSelector = (key, getState) => createSelector(
   getState,
   state => state[key],
 );

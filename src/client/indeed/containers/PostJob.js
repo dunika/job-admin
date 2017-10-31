@@ -1,10 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { compose, withStateHandlers, withHandlers } from 'recompose';
+import { compose, withHandlers } from 'recompose';
+import { reduxForm, Field } from 'redux-form';
+import moment from 'moment';
 
 import { Flex } from 'client/shared/components';
 import { connectReselect } from 'client/shared/utils';
 import { Job } from 'client/jobs';
+import { CategorySelector } from '../components';
 import { actions, selectors } from '../store';
 
 const Container = styled.div`
@@ -19,10 +22,21 @@ const Results = styled.div`
   padding-right: 20px;
 `;
 
+const jobTypes = [
+  'Apprenticeship',
+  'Freelance',
+  'Full Time',
+  'Internship',
+  'Part Time',
+  'Part Time and Full Time',
+  'Permanent',
+  'Temporary',
+  'Volunteer',
+];
+
 const PostJob = ({
-  descriptionRef,
-  salaryRef,
-  addJob, // renamce add job to post job
+  handleSubmit,
+  postJob,
   isLoading,
   job,
 }) => (
@@ -33,41 +47,80 @@ const PostJob = ({
       </Results>
     </Flex>
     <br />
-    <Flex col>
-      <input placeholder="Salary" ref={salaryRef} />
-      <br />
-      <textarea rows="10" placeholder="Description" ref={descriptionRef} />
-      <br />
-      <button onClick={addJob}>Post Job</button>
-    </Flex>
+    <form onSubmit={handleSubmit}>
+      <Flex col>
+        <Field
+          name="category"
+          component={CategorySelector}
+        />
+        <br />
+        <Field
+          name="expiraryDate"
+          component="input"
+          type="date"
+        />
+        <br />
+        <Field
+          component="select"
+          name="jobType"
+        >
+          <option disabled value="">
+            Select job type
+          </option>
+          {jobTypes.map(type => (
+            <option value={type}>
+              {type}
+            </option>
+          ))}
+        </Field>
+        <br />
+        <Field
+          name="company"
+          component="input"
+          placeholder="Company Name"
+        />
+        <br />
+        <Field
+          name="title"
+          component="input"
+          placeholder="Job Title"
+        />
+        <br />
+        <Field
+          name="description"
+          component="textarea"
+          rows="10"
+          placeholder="Description"
+        />
+        <br />
+        <button type="submit">Post Job</button>
+      </Flex>
+    </form>
   </Container>
 );
 
 const enhance = compose(
-  withStateHandlers({
-    descriptionInput: null,
-    salaryInput: null,
-    countryInput: null,
-  }, {
-    descriptionRef: () => descriptionInput => ({ descriptionInput }),
-    salaryRef: () => salaryInput => ({ salaryInput }),
-  }),
   connectReselect({
     isLoading: selectors.isLoading,
+    initialValues: () => ({
+      expiraryDate: moment().format('YYYY-MM-DD'),
+    }),
   }, {
-    addJobToWordpress: actions.addJobToWordpress,
+    postJobToWordpress: actions.postJobToWordpress,
   }),
   withHandlers({
-    addJob: ({ addJobToWordpress, job, descriptionInput, salaryInput }) => () => {
-      addJobToWordpress({
+    addJob: ({ postJobToWordpress, job }) => (data) => {
+      postJobToWordpress({
         ...job,
         urls: {
           source: job.urls.nonSponsoredSource,
         },
-        description: descriptionInput.value,
-        salary: salaryInput.value,
+        ...data,
       });
     },
+  }),
+  reduxForm({
+    form: 'post-job',
   }),
 );
 

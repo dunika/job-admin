@@ -27,6 +27,9 @@
           "preventFullImport": true
         }
       }
-    ]
+    ], [ "inline-import", {
+        "extensions": [ ".css" ]
+        }
+      ]
   ]
 }

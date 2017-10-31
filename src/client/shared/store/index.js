@@ -4,6 +4,7 @@ import withRedux from 'next-redux-wrapper';
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createLogger } from 'redux-logger';
+import { reducer as form } from 'redux-form';
 
 import { isDevelopment, isServer } from 'isomorphic';
 import { reducer as jobs } from 'client/jobs';
@@ -13,6 +14,7 @@ import rootSaga from './saga';
 const reducer = combineReducers({
   indeed,
   jobs,
+  form,
 });
 
 const sagaMiddleware = createSagaMiddleware();

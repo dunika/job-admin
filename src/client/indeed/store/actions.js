@@ -28,5 +28,5 @@ const normalizeJobs = data => data.reduce((results, { snippet, jobtitle, formatt
 
 export default {
   search: createAsyncAction('SEARCH_INDEED', normalizeJobs),
-  addJobToWordpress: createAsyncAction('ADD_JOB_TO_WORDPRESS'),
+  postJobToWordpress: createAsyncAction('POST_JOB_TO_WORDPRESS'),
 };

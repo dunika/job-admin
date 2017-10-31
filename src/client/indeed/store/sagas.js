@@ -7,11 +7,11 @@ const search = createAsyncSaga(actions.search, request.post, ({ payload }) => { 
   return ['/api/indeed/search', payload];
 });
 
-const addJobToWordpress = createAsyncSaga(actions.addJobToWordpress, request.post, ({ payload }) => { //eslint-disable-line
+const postJobToWordpress = createAsyncSaga(actions.postJobToWordpress, request.post, ({ payload }) => { //eslint-disable-line
   return ['/api/wordpress/post-job', payload];
 });
 
 export default [
-  addJobToWordpress,
+  postJobToWordpress,
   search,
 ];

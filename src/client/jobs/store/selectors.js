@@ -1,21 +1,21 @@
 import { createSelector } from 'reselect';
 import moment from 'moment';
 import { compose, lowerCase } from 'lodash/fp';
-import { createKeyedDataSelector } from 'client/shared/utils';
+import { createKeyedSelector } from 'client/shared/utils';
 
 const getJobsState = ({ jobs }) => jobs;
 
-const getIsLoading = createKeyedDataSelector('isLoading', getJobsState);
+const getIsLoading = createKeyedSelector('isLoading', getJobsState);
 
-const getActiveFilters = createKeyedDataSelector('activeFilters', getJobsState);
+const getActiveFilters = createKeyedSelector('activeFilters', getJobsState);
 
-const getSelectedJobIds = createKeyedDataSelector('selected', getJobsState);
+const getSelectedJobIds = createKeyedSelector('selected', getJobsState);
 
-const getData = createKeyedDataSelector('data', getJobsState);
+const getData = createKeyedSelector('data', getJobsState);
 
-const getPostedFilter = createKeyedDataSelector('posted', getActiveFilters);
+const getPostedFilter = createKeyedSelector('posted', getActiveFilters);
 
-const getLocationFilter = createKeyedDataSelector('location', getActiveFilters);
+const getLocationFilter = createKeyedSelector('location', getActiveFilters);
 
 const getSelectedJobIdsArray = createSelector(
   getSelectedJobIds,
