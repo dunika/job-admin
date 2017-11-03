@@ -42,7 +42,6 @@ ${description}`,
 
 export default async (req, res, next) => {
   try {
-    req.setTimeout(0);
     console.log('Fetching jobs from CV Library');
     // const testXml = await readAsync(resolve(__dirname, '../../files/test.xml'));
     const xml = await request(cvLibraryApi);

@@ -14,7 +14,6 @@ function* getArgs(action, args) {
 
 export const createAsyncSaga = (actionCreator, asyncFunction, args) => {
   function* execute(action) {
-    console.log('ls');
     const asyncArgs = yield getArgs(action, args);
     try {
       const data = yield call(asyncFunction, ...asyncArgs);

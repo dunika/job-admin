@@ -3,7 +3,7 @@ import { regions } from 'isomorphic';
 
 const getLocation = (location) => {
   const regex = new RegExp(location.replace(',', '').split(' ').join('|'));
-  return regions.find(region => regex.test(region));
+  return regions.find(region => regex.test(region)) || location;
 };
 
 // TODO: Move the main normalization to server

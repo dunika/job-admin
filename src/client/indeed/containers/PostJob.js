@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { compose, withHandlers } from 'recompose';
+import { compose, withHandlers, withProps } from 'recompose';
 import { reduxForm, Field } from 'redux-form';
 import moment from 'moment';
 
@@ -36,7 +36,6 @@ const jobTypes = [
 
 const PostJob = ({
   handleSubmit,
-  postJob,
   isLoading,
   job,
 }) => (
@@ -55,12 +54,6 @@ const PostJob = ({
         />
         <br />
         <Field
-          name="expiraryDate"
-          component="input"
-          type="date"
-        />
-        <br />
-        <Field
           component="select"
           name="jobType"
         >
@@ -74,12 +67,28 @@ const PostJob = ({
           ))}
         </Field>
         <br />
+        <p>Expiry Date</p>
+        <Field
+          name="expiryDate"
+          component="input"
+          type="date"
+        />
+        <br />
+        <p>Location</p>
+        <Field
+          name="location"
+          component="input"
+          placeholder="Location"
+        />
+        <br />
+        <p>Company</p>
         <Field
           name="company"
           component="input"
           placeholder="Company Name"
         />
         <br />
+        <p>Title</p>
         <Field
           name="title"
           component="input"
@@ -102,23 +111,29 @@ const PostJob = ({
 const enhance = compose(
   connectReselect({
     isLoading: selectors.isLoading,
-    initialValues: () => ({
-      expiraryDate: moment().format('YYYY-MM-DD'),
-    }),
   }, {
     postJobToWordpress: actions.postJobToWordpress,
   }),
   withHandlers({
-    addJob: ({ postJobToWordpress, job }) => (data) => {
+    onSubmit: ({ postJobToWordpress, job }) => (data) => {
       postJobToWordpress({
         ...job,
         urls: {
           source: job.urls.nonSponsoredSource,
         },
+        expiryDate: moment(data.expiryDate).format('YYYY-MM-DD'),
         ...data,
       });
     },
   }),
+  withProps(({ job: { company, location, title } }) => ({
+    initialValues: {
+      expiryDate: moment().format('YYYY-MM-DD').add(1, 'M'),
+      title,
+      location,
+      company,
+    },
+  })),
   reduxForm({
     form: 'post-job',
   }),

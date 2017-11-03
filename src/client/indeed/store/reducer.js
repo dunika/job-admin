@@ -22,6 +22,7 @@ const initialState = {
       state: 'D',
       country: 'IE',
       language: 'en',
+      location: 'Dublin',
       formattedLocation: 'North Dublin, County Dublin',
       date: 'Tue, 01 Aug 2017 13:16:14 GMT',
       url: 'http://ie.indeed.com/pagead/clk?mo=r&ad=-6NYlbfkN0Aw1efAMzldDzpoIJt3dh-Ws43S30drXQ6jFQqkIis_u6RvgKGEFr6GER8jEVzYbGATvLOsZ2uaYXo-E0q2khXVmWgILgEHz9dQFsZmuo20yuHQr6KXXK9KT1o_664sLjdX6xq22qvFMJZ5k3bluu4c561HDvjMtBtTeeC0Mx-ZHllRfnQdZQOyMIV1FjsyGm-ki7eiIZMQ5zqbqj5UUTkuNH8amNLwRlQKfEjmNjgOUueGJ1TLgjHhDiGnLtrzyVnIjdUI_SH8X-m0Uf386ELvQDkEW7E9Vhuf7XgdbizsWoV2R18wrkZKO8bz50kLEX-VgQC9auhMQVmZ1gZiNqJaKq8BOgAgAvawtB5XL4c2EhwP-FOw5URNW2eTXbza61lhdb_JDrQRvJT4D_u244AMgR5k3oRdqIg7e0ubI691HvzfxtcDtavAIDYKr1wsTw4em5k5VsmPd5cUS5NueLJJZBvp7NMxEFWXxnhvbG2nWa90M9kQQIaULifctwRikwQraj5a-Gc13pEs0_0hWT0lwvnGpP6HVSrD_le9HGBOO2bt72kMKvigSvdDGA2VsWZaULP-_uS6CaPHesVYNaeTr9ax06o1bwsU7MBei0CUMKGbrfV0wV_w_yBeRnbZlKa7pdMqasjBewnw5lzm65N6M43-MCRL2qX6Hf1hseeaVpPVwxcYKTg18hU4qHA6rfOgw9HhB8AzIVB35gDBlu9mhNJKxVUi_KZedHywzNTdbwvpSC7xisZbQgtAH2WjmM2xtkQShOATshyJOhfUl6hZG9zaBMELAyGIifIrSvxU0B7SVeM_CRiGv_7Iv9URpfaFnMAtsbaJUfrxxvmuyNGcq83xHzEPJd9von45iec08Q==&p=0&rjs=1&atk=1btq37im80nkn7u7',

@@ -6,11 +6,10 @@ import { createPost } from 'config';
 const postJobs = async (jobs) => {
   const postedJobs = await BlueBird.map(Array.isArray(jobs) ? jobs : [jobs], async (job) => {
     const {
-      description,
       urls: { source },
       location,
       salary,
-      title,
+      ...otherJobProperties
     } = job._doc;
     try {
       // TODO: USe our own request module for sending form data once its fixed
@@ -19,15 +18,15 @@ const postJobs = async (jobs) => {
         json: true,
         formData: {
           action: createPost.action,
-          description,
           location,
           locationId: location,
-          ...salary && { salary },
-          title,
           url: source,
+          ...salary && { salary },
+          ...otherJobProperties,
         },
       });
       if (response.url) {
+        return { url: response.url };
         console.log(`Succesfully posted to ${response.url}`);
         job.urls.posted = response.url;
         const addedJob = await job.save();

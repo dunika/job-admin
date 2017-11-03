@@ -30,25 +30,15 @@ export default () => {
   api.use('/wordpress/post-job', async (req, res, next) => {
     try {
       const {
-        description,
-        location,
-        salary,
-        source,
-        sourceId,
-        title,
         urls: { source: sourceUrl },
+        ...otherJobProperties
       } = req.body;
 
       const job = new models.Job({
-        description,
-        location,
-        salary,
-        source,
-        sourceId,
-        title,
+        ...otherJobProperties,
         urls: { source: sourceUrl },
       });
-      await job.save();
+      // await job.save();
 
       const postedJobs = await postJobs(job);
 
