@@ -128,7 +128,7 @@ const enhance = compose(
   }),
   withProps(({ job: { company, location, title } }) => ({
     initialValues: {
-      expiryDate: moment().format('YYYY-MM-DD').add(1, 'M'),
+      expiryDate: moment().add(1, 'M').format('YYYY-MM-DD'),
       title,
       location,
       company,
