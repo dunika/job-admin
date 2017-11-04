@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { models } from 'server/database';
 
-import postJobs from './postJobs';
+import BlueBird from 'bluebird';
+import postJob from './post-job';
 
 export default () => {
   const api = Router();
@@ -17,10 +18,21 @@ export default () => {
         },
       );
 
-      const postedJobs = await postJobs(jobs);
+      const postedJobs = await BlueBird.map(jobs, async (job) => {
+        try {
+          const url = await postJob(jobs);
+          job.urls.posted = url;
+          await job.save();
+          return true;
+        } catch (error) {
+          console.log(error);
+          return false;
+        }
+      }, { concurrency: 1 });
+
 
       console.log('Finished creating job posts');
-      res.status(200).json([...postedJobs.filter(({ error }) => !error)]);
+      res.status(200).json([...postedJobs.filter(value => value)]);
       return;
     } catch (error) {
       next(error);
@@ -29,21 +41,22 @@ export default () => {
 
   api.use('/wordpress/post-job', async (req, res, next) => {
     try {
-      const {
-        urls: { source: sourceUrl },
-        ...otherJobProperties
-      } = req.body;
+      const jobData = req.body;
+      const url = await postJob(jobData);
 
       const job = new models.Job({
-        ...otherJobProperties,
-        urls: { source: sourceUrl },
+        ...jobData,
+        urls: {
+          ...jobData.urls,
+          posted: url,
+        },
       });
-      // await job.save();
 
-      const postedJobs = await postJobs(job);
+      await job.save();
+
 
       console.log('Finished creating job posts');
-      res.status(200).json([...postedJobs.filter(({ error }) => !error)]);
+      res.status(200).json();
       return;
     } catch (error) {
       next(error);
