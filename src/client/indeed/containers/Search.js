@@ -19,21 +19,31 @@ const Results = styled.div`
   padding-right: 20px;
 `;
 
+const Search = styled.div`
+  input {
+    margin-right: 10px;
+    margin-bottom: 0;
+  }
+`;
+
 const Jobs = ({
   keywordRef,
   locationRef,
   countryRef,
   handleSearch,
+  handleEnterKeyPress,
   isLoading,
   jobs,
 }) => (
   <Container isLoading={isLoading}>
-    <Flex>
-      <input placeholder="Keywords" ref={keywordRef} />
-      <input placeholder="Location" ref={locationRef} />
-      <input placeholder="Country code" ref={countryRef} />
-      <button onClick={handleSearch}>Search</button>
-    </Flex>
+    <Search>
+      <Flex>
+        <input onKeyPress={handleEnterKeyPress} type="text" placeholder="Keywords" ref={keywordRef} />
+        <input onKeyPress={handleEnterKeyPress} type="text" placeholder="Location" ref={locationRef} />
+        <input onKeyPress={handleEnterKeyPress} type="text" placeholder="Country code" ref={countryRef} />
+        <button onClick={handleSearch}>Search</button>
+      </Flex>
+    </Search>
     <br />
     <Flex justify="space-between">
       <Results>
@@ -73,6 +83,13 @@ const enhance = compose(
         location: locationInput.value,
         country: countryInput.value,
       });
+    },
+  }),
+  withHandlers({
+    handleEnterKeyPress: ({ handleSearch }) => (event) => {
+      if (event.which === 13) {
+        handleSearch();
+      }
     },
   }),
 );

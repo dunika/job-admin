@@ -6,6 +6,7 @@ const schema = new Schema({
     default: Date.now,
     type: Date,
   },
+  expiraryDate: String,
   description: String,
   flag: String,
   location: String,

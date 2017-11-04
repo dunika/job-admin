@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { models } from 'server/database';
+import { omit } from 'lodash';
 
 import BlueBird from 'bluebird';
 import postJob from './post-job';
@@ -20,16 +21,15 @@ export default () => {
 
       const postedJobs = await BlueBird.map(jobs, async (job) => {
         try {
-          const url = await postJob(jobs);
+          const url = await postJob(omit(job._doc, ['date', '_id']));
           job.urls.posted = url;
           await job.save();
-          return true;
+          return job._doc;
         } catch (error) {
           console.log(error);
           return false;
         }
       }, { concurrency: 1 });
-
 
       console.log('Finished creating job posts');
       res.status(200).json([...postedJobs.filter(value => value)]);
@@ -42,6 +42,7 @@ export default () => {
   api.use('/wordpress/post-job', async (req, res, next) => {
     try {
       const jobData = req.body;
+      console.log(jobData);
       const url = await postJob(jobData);
 
       const job = new models.Job({
@@ -53,10 +54,8 @@ export default () => {
       });
 
       await job.save();
-
-
       console.log('Finished creating job posts');
-      res.status(200).json();
+      res.status(200).json({ ...job._doc });
       return;
     } catch (error) {
       next(error);

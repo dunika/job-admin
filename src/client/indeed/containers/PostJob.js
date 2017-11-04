@@ -7,7 +7,7 @@ import moment from 'moment';
 import { Flex } from 'client/shared/components';
 import { connectReselect } from 'client/shared/utils';
 import { Job } from 'client/jobs';
-import { CategorySelector } from '../components';
+import { CategorySelector, JobTypeSelector } from '../components';
 import { actions, selectors } from '../store';
 
 const Container = styled.div`
@@ -21,18 +21,6 @@ const Container = styled.div`
 const Results = styled.div`
   padding-right: 20px;
 `;
-
-const jobTypes = [
-  'Apprenticeship',
-  'Freelance',
-  'Full Time',
-  'Internship',
-  'Part Time',
-  'Part Time and Full Time',
-  'Permanent',
-  'Temporary',
-  'Volunteer',
-];
 
 const PostJob = ({
   handleSubmit,
@@ -48,60 +36,47 @@ const PostJob = ({
     <br />
     <form onSubmit={handleSubmit}>
       <Flex col>
-        <Field
-          name="category"
-          component={CategorySelector}
-        />
-        <br />
-        <Field
-          component="select"
-          name="jobType"
-        >
-          <option disabled value="">
-            Select job type
-          </option>
-          {jobTypes.map(type => (
-            <option value={type}>
-              {type}
-            </option>
-          ))}
-        </Field>
-        <br />
-        <p>Expiry Date</p>
-        <Field
-          name="expiryDate"
-          component="input"
-          type="date"
-        />
-        <br />
-        <p>Location</p>
-        <Field
-          name="location"
-          component="input"
-          placeholder="Location"
-        />
-        <br />
-        <p>Company</p>
-        <Field
-          name="company"
-          component="input"
-          placeholder="Company Name"
-        />
-        <br />
-        <p>Title</p>
+        <label>Title</label>
         <Field
           name="title"
           component="input"
           placeholder="Job Title"
         />
-        <br />
+        <label>Expiry Date</label>
+        <Field
+          name="expiryDate"
+          component="input"
+          type="date"
+        />
+        <label>Category</label>
+        <Field
+          name="category"
+          component={CategorySelector}
+        />
+        <label>Job Type</label>
+        <Field
+          name="type"
+          component={JobTypeSelector}
+        />
+        <label>Company</label>
+        <Field
+          name="company"
+          component="input"
+          placeholder="Company Name"
+        />
+        <label>Location</label>
+        <Field
+          name="location"
+          component="input"
+          placeholder="Location"
+        />
+        <label>Description</label>
         <Field
           name="description"
           component="textarea"
           rows="10"
           placeholder="Description"
         />
-        <br />
         <button type="submit">Post Job</button>
       </Flex>
     </form>
@@ -115,11 +90,19 @@ const enhance = compose(
     postJobToWordpress: actions.postJobToWordpress,
   }),
   withHandlers({
-    onSubmit: ({ postJobToWordpress, job }) => (data) => {
+    onSubmit: ({
+      postJobToWordpress,
+      job: {
+        source,
+        sourceId,
+        urls: { nonSponsoredSource },
+      },
+    }) => (data) => {
       postJobToWordpress({
-        ...job,
+        source,
+        sourceId,
         urls: {
-          source: job.urls.nonSponsoredSource,
+          source: nonSponsoredSource,
         },
         expiryDate: moment(data.expiryDate).format('YYYY-MM-DD'),
         ...data,

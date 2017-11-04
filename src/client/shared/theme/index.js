@@ -24,5 +24,24 @@ const global = injectGlobal`
   p {
     margin: 0px;
   }
+
+  label {
+    font-size: 12px;
+    margin-bottom: 5px;
+  }
+
+  button {
+    font-weight: bold;
+    font-size: 16px;
+    border: none;
+    padding: 5px 10px;   
+    background: #003399;
+    color: white;
+  }
+
+  input, select, textarea {
+    padding: 2px 5px;
+    margin-bottom: 10px;
+  }
 `;
 /* eslint-disable */

@@ -5,20 +5,13 @@ import { connectReselect } from 'client/shared/utils';
 import { Checkbox, Flex } from 'client/shared/components';
 import { actions, selectors } from '../../store';
 
-const Container = styled.div`
-  padding: 30px 20px;
-  position: fixed;
-  right: 0;
-  top: 50px;
-`;
-
 const Filters = ({
   postedFilter,
   locationFilter,
   togglePostedFilter,
   setLocationFilter,
 }) => (
-  <Container>
+  <div>
     <p>Filters</p>
     <Flex align="center">
       <Checkbox
@@ -32,7 +25,7 @@ const Filters = ({
       placeholder="Search location..."
       onChange={({ target: { value } }) => setLocationFilter(value)}
     />
-  </Container>
+  </div>
 );
 
 export default connectReselect({

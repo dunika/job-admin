@@ -71,7 +71,6 @@ export default async (req, res, next) => {
         const addedJob = await newJob.save();
         return addedJob;
       } catch (error) {
-        console.log(error);
         return null;
       }
     });

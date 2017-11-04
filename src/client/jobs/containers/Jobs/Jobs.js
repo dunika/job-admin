@@ -31,6 +31,14 @@ const ActionBar = styled.div`
   }
 `;
 
+const Panel = styled.div`
+  padding: 30px 20px;
+  position: fixed;
+  right: 0;
+  top: 50px;
+`;
+
+
 const Jobs = ({
   isLoading,
   addJobsToWordpress,
@@ -51,18 +59,21 @@ const Jobs = ({
           />),
         )}
       </Results>
-      <Filters />
-    </Flex>
-    <ActionBar>
-      <Flex>
-        <button onClick={dismissJobs}>
+      <Panel>
+        <Filters />
+        <br />
+        <br />
+        <Flex col>
+          <button onClick={dismissJobs}>
           Dismiss Jobs
-        </button>
-        <button onClick={addJobsToWordpress}>
+          </button>
+          <br />
+          <button onClick={addJobsToWordpress}>
           Add Jobs to Wordpress
-        </button>
-      </Flex>
-    </ActionBar>
+          </button>
+        </Flex>
+      </Panel>
+    </Flex>
   </Container>
 );
 
