@@ -71,10 +71,10 @@ export default handleActions({ // TODO: research lodash methods for making this 
   [actions.search]: createAsyncLeaf((state, { payload }) => ({
     data: payload,
   })),
-  [actions.addJobToWordpress]: createAsyncLeaf(({ data }, { payload }) => ({
+  [actions.postJobToWordpress]: createAsyncLeaf(({ data }, { payload }) => ({
     data: {
       ...data,
-      [payload[0].sourceId]: payload[0],
+      [payload.sourceId]: payload,
     },
   })),
 }, initialState);

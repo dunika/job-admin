@@ -34,7 +34,7 @@ const PostJob = ({
       </Results>
     </Flex>
     <br />
-    <form onSubmit={handleSubmit}>
+    {!job.urls.posted && <form onSubmit={handleSubmit}>
       <Flex col>
         <label>Title</label>
         <Field
@@ -64,6 +64,12 @@ const PostJob = ({
           component="input"
           placeholder="Company Name"
         />
+        <label>Salary</label>
+        <Field
+          name="salary"
+          component="input"
+          placeholder="Salary"
+        />
         <label>Location</label>
         <Field
           name="location"
@@ -79,7 +85,7 @@ const PostJob = ({
         />
         <button type="submit">Post Job</button>
       </Flex>
-    </form>
+    </form>}
   </Container>
 );
 

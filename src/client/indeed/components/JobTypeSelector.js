@@ -16,7 +16,7 @@ export default ({ input }) => (
   <select {...input}>
     <option disabled value="">Select job type</option>
     {jobTypes.map(({ value, label }) => (
-      <option value={value}>{label}</option>
+      <option key={value} value={value}>{label}</option>
     ))}
   </select>
 );

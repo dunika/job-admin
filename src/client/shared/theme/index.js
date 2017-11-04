@@ -37,6 +37,7 @@ const global = injectGlobal`
     padding: 5px 10px;   
     background: #003399;
     color: white;
+    cursor: pointer;
   }
 
   input, select, textarea {
