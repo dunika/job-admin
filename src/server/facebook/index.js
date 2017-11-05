@@ -1,8 +1,5 @@
 import { Router } from 'express';
-import request from 'request-promise';
 import { Facebook } from 'fb';
-
-const facebookGraphUrl = 'https://graph.facebook.com/v2.10';
 
 const getPermanentAccessToken = async (appId, appSecret, accessToken) => {
   const fb = new Facebook({ appId, appSecret, accessToken });
@@ -12,8 +9,6 @@ const getPermanentAccessToken = async (appId, appSecret, accessToken) => {
     fb_exchange_token: accessToken,
     grant_type: 'fb_exchange_token',
   });
-
-  // const userId = await request(`${facebookGraphUrl}/me?access_token=${longLivedToken}`);
 
   const { id: userId } = await fb.api('/me', { access_token: longLivedToken });
 
