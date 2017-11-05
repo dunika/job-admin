@@ -87,7 +87,7 @@ const enhance = compose(
   withHandlers({
     handleSearch: ({ search, sortByDateCheckbox, keywordInput, locationInput, countryInput }) => () => {
       search({
-        sortyByDate: sortByDateCheckbox.checked,
+        sortByDate: sortByDateCheckbox.checked,
         keywords: keywordInput.value,
         location: locationInput.value,
         country: countryInput.value,
