@@ -76,9 +76,11 @@ export const api = () => {
   apiRoutes.use('/scrape', async (req, res, next) => {
     try {
       const html = await request(req.body.url);
+      const description = extractDescription(html);
+      const salary = extractSalary(html);
       res.json({
-        description: extractDescription(html),
-        salary: extractSalary(html),
+        ...description && { description },
+        ...salary && { salary },
       });
     } catch (error) {
       console.log(error);

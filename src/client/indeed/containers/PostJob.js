@@ -102,16 +102,14 @@ const enhance = compose(
         source,
         description,
         sourceId,
-        urls: { nonSponsoredSource },
+        urls,
       },
     }) => (data) => {
       postJobToWordpress({
         source,
         description: data.description || description,
         sourceId,
-        urls: {
-          source: nonSponsoredSource,
-        },
+        urls,
         expiryDate: moment(data.expiryDate).format('YYYY-MM-DD'),
         ...data,
       });

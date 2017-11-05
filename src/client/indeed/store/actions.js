@@ -8,20 +8,13 @@ const getLocation = (location) => {
 
 // TODO: Move the main normalization to server
 // TODO: Rename location to region
-const normalizeJobs = data => data.reduce((results, { snippet, jobtitle, formattedLocationFull, ...rest }) => ({
+const normalizeJobs = data => data.reduce((results, { location, sourceId, ...rest }) => ({
   ...results,
-  [rest.jobkey]: {
-    _id: rest.jobkey,
-    source: 'indeed',
-    sourceId: rest.jobkey,
-    title: jobtitle,
-    description: snippet,
-    fullAddress: formattedLocationFull,
-    location: getLocation(formattedLocationFull),
-    urls: {
-      nonSponsoredSource: `https://ie.indeed.com/rc/clk?jk=${rest.jobkey}`,
-      source: rest.url,
-    },
+  [sourceId]: {
+    _id: sourceId,
+    sourceId,
+    fullAddress: location,
+    location: getLocation(location),
     ...rest,
   },
 }), {});

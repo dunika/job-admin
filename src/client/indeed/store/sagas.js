@@ -4,8 +4,8 @@ import { request } from 'isomorphic';
 import actions from './actions';
 
 const scrapeJobData = createAsyncSaga(actions.scrapeJobData, request.post, ({ payload }) => { //eslint-disable-line
-  const { urls: { nonSponsoredSource } } = payload;
-  return ['/api/scrape', { url: nonSponsoredSource }];
+  const { urls: { source } } = payload;
+  return ['/api/scrape', { url: source }];
 }, (data, payload) => {
   const { _id } = payload;
   return {

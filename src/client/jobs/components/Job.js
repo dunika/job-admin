@@ -108,7 +108,7 @@ const Job = ({ shouldOpenPostJob, showFullDescription, toggle, isSelected, job }
         />
         {job.urls.source && <Source
           target="_blank"
-          href={job.urls.nonSponsoredSource || job.urls.source}
+          href={job.urls.source}
         >
           View Source
         </Source>}
@@ -119,7 +119,7 @@ const Job = ({ shouldOpenPostJob, showFullDescription, toggle, isSelected, job }
           {job.urls.posted}
         </PostedUrl>}
         <Date>
-          {moment(job.date).format('dddd, MMMM, Do')}
+          {moment(job.date).isValid() ? moment(job.date).format('dddd, MMMM, Do') : job.date}
         </Date>
       </div>
     </Flex>

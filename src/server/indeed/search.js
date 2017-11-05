@@ -1,6 +1,7 @@
 import { URL } from 'url';
 
-import { stringify } from 'query-string';
+import { parse, stringify } from 'query-string';
+import uuid from 'uuid';
 import scrape from 'paginated-listings-scraper';
 
 const baseContryUrls = {
@@ -15,7 +16,7 @@ export default async (req, res, next) => {
   const query = stringify({
     l: location,
     q: keywords || '',
-    ...!sortByDate && { sort: 'date' },
+    ...sortByDate && { sort: 'date' },
   });
 
   const url = `${baseUrl}?${query}`;
@@ -29,7 +30,9 @@ export default async (req, res, next) => {
         const titleSelector = isSponsored ? '.jobtitle' : '.jobtitle a';
 
         const { origin } = new URL(baseUrl);
-        const link = `${origin}${parent.find($(titleSelector)).attr('href')}`;
+        const jobUrl = `${origin}${parent.find($(titleSelector)).attr('href')}`;
+        const { search } = new URL(jobUrl);
+        const { jk } = parse(search);
         const dataSelectors = {
           company: '.company',
           date: '.result-link-bar .date',
@@ -39,7 +42,9 @@ export default async (req, res, next) => {
           title: titleSelector,
         };
         return {
-          link,
+          urls: { source: jobUrl },
+          sourceId: jk || uuid(url),
+          source: 'indeed',
           ...Object.entries(dataSelectors).reduce((results, [name, selector]) => ({
             ...results,
             [name]: parent.find($(selector)).text().trim() || null,
@@ -48,7 +53,8 @@ export default async (req, res, next) => {
       },
       url,
       nextPageSelector(origin, $) {
-        return `${origin}${$('.pagination').children().last().attr('href')}`;
+        const href = $('.pagination').children().last().attr('href');
+        return href ? `${origin}${href}` : null;
       },
     });
 

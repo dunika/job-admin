@@ -24,7 +24,7 @@ const Search = styled.div`
     margin: 0;
   }
   input[type="checkbox"] {
-    margin-right: 10px;
+    margin-right: 5px;
   }
   > div > * {
     margin-right: 10px;
@@ -47,7 +47,7 @@ const Jobs = ({
         <input onKeyPress={handleEnterKeyPress} type="text" placeholder="Keywords" ref={keywordRef} />
         <input onKeyPress={handleEnterKeyPress} type="text" placeholder="Location" ref={locationRef} />
         <input onKeyPress={handleEnterKeyPress} type="text" placeholder="Country code" ref={countryRef} />
-        <Checkbox label="Sort by date" ref={sortByDateRef} />
+        <Checkbox label="Sort by date" innerRef={sortByDateRef} />
         <button onClick={handleSearch}>Search</button>
       </Flex>
     </Search>
@@ -87,7 +87,7 @@ const enhance = compose(
   withHandlers({
     handleSearch: ({ search, sortByDateCheckbox, keywordInput, locationInput, countryInput }) => () => {
       search({
-        sortyByDate: sortByDateCheckbox.value,
+        sortyByDate: sortByDateCheckbox.checked,
         keywords: keywordInput.value,
         location: locationInput.value,
         country: countryInput.value,

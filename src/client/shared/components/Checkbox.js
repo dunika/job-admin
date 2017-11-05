@@ -21,6 +21,7 @@ const CheckboxStyled = styled.input.attrs({
 `;
 
 const Label = styled.label`
+  white-space: nowrap;
   ${({ size }) => sizes[size].label}
   margin: 0;
 `;
