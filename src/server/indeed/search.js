@@ -1,50 +1,58 @@
-import { stringify } from 'query-string';
-import request from 'request-promise';
+import { URL } from 'url';
 
-const getIp = (req) => {
-  const xForwarded = req.headers['x-forwarded-for'];
-  if (xForwarded) {
-    return xForwarded.split(',')[0].trim();
-  }
-  return req.connection.remoteAddress ||
-    req.socket.remoteAddress ||
-    req.connection.socket.remoteAddress;
+import { stringify } from 'query-string';
+import scrape from 'paginated-listings-scraper';
+
+const baseContryUrls = {
+  ie: 'https://ie.indeed.com/jobs',
+  gb: 'https://www.indeed.co.uk',
 };
 
 export default async (req, res, next) => {
-  const { keywords, location, country } = req.body;
+  const { keywords, location, country = 'ie', sortByDate } = req.body;
 
-  const chnl = 'query-page';
-  const co = country || 'ie';
-  const format = 'json';
-  const l = location;
-  const limit = 25;
-  const publisher = '1835282825040035';
-  const q = keywords;
-  const sort = 'date';
-  const useragent = req.headers['user-agent'];
-  const userip = getIp(req);
-  const v = '2';
-
+  const baseUrl = baseContryUrls[country || 'ie'];
   const query = stringify({
-    chnl,
-    co,
-    format,
-    l,
-    limit,
-    publisher,
-    q,
-    sort,
-    useragent,
-    userip,
-    v,
+    l: location,
+    q: keywords || '',
+    ...!sortByDate && { sort: 'date' },
   });
 
+  const url = `${baseUrl}?${query}`;
+
   try {
-    console.log(`http://api.indeed.com/ads/apisearch?${query}`);
-    const url = `http://api.indeed.com/ads/apisearch?${query}`;
-    const data = await request({ url, json: true });
-    res.json(data.results);
+    const data = await scrape({
+      maximiumDepth: 2,
+      parentSelector: '.row.result',
+      dataSelector: (parent, $) => {
+        const isSponsored = parent.text().includes('Sponsored');
+        const titleSelector = isSponsored ? '.jobtitle' : '.jobtitle a';
+
+        const { origin } = new URL(baseUrl);
+        const link = `${origin}${parent.find($(titleSelector)).attr('href')}`;
+        const dataSelectors = {
+          company: '.company',
+          date: '.result-link-bar .date',
+          location: '.location',
+          salary: '.snip span.no-wrap',
+          description: '.summary',
+          title: titleSelector,
+        };
+        return {
+          link,
+          ...Object.entries(dataSelectors).reduce((results, [name, selector]) => ({
+            ...results,
+            [name]: parent.find($(selector)).text().trim() || null,
+          }), {}),
+        };
+      },
+      url,
+      nextPageSelector(origin, $) {
+        return `${origin}${$('.pagination').children().last().attr('href')}`;
+      },
+    });
+
+    res.json(data);
     return;
   } catch (error) {
     next(error);

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { compose, withStateHandlers, withHandlers } from 'recompose';
 
-import { Flex } from 'client/shared/components';
+import { Checkbox, Flex } from 'client/shared/components';
 import { connectReselect } from 'client/shared/utils';
 import { Job } from 'client/jobs';
 import { actions, selectors } from '../store';
@@ -21,8 +21,13 @@ const Results = styled.div`
 
 const Search = styled.div`
   input {
+    margin: 0;
+  }
+  input[type="checkbox"] {
     margin-right: 10px;
-    margin-bottom: 0;
+  }
+  > div > * {
+    margin-right: 10px;
   }
 `;
 
@@ -30,6 +35,7 @@ const Jobs = ({
   keywordRef,
   locationRef,
   countryRef,
+  sortByDateRef,
   handleSearch,
   handleEnterKeyPress,
   isLoading,
@@ -41,6 +47,7 @@ const Jobs = ({
         <input onKeyPress={handleEnterKeyPress} type="text" placeholder="Keywords" ref={keywordRef} />
         <input onKeyPress={handleEnterKeyPress} type="text" placeholder="Location" ref={locationRef} />
         <input onKeyPress={handleEnterKeyPress} type="text" placeholder="Country code" ref={countryRef} />
+        <Checkbox label="Sort by date" ref={sortByDateRef} />
         <button onClick={handleSearch}>Search</button>
       </Flex>
     </Search>
@@ -61,10 +68,12 @@ const Jobs = ({
 
 const enhance = compose(
   withStateHandlers({
+    sortByDateCheckbox: null,
     keywordInput: null,
     locationInput: null,
     countryInput: null,
   }, {
+    sortByDateRef: () => sortByDateCheckbox => ({ sortByDateCheckbox }),
     keywordRef: () => keywordInput => ({ keywordInput }),
     locationRef: () => locationInput => ({ locationInput }),
     countryRef: () => countryInput => ({ countryInput }),
@@ -76,8 +85,9 @@ const enhance = compose(
     search: actions.search,
   }),
   withHandlers({
-    handleSearch: ({ search, keywordInput, locationInput, countryInput }) => () => {
+    handleSearch: ({ search, sortByDateCheckbox, keywordInput, locationInput, countryInput }) => () => {
       search({
+        sortyByDate: sortByDateCheckbox.value,
         keywords: keywordInput.value,
         location: locationInput.value,
         country: countryInput.value,

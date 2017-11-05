@@ -74,7 +74,6 @@ const Job = ({ shouldOpenPostJob, showFullDescription, toggle, isSelected, job }
         isSelected={isSelected}
       >
         <Checkbox
-          type="checkbox"
           checked={!!isSelected}
         />
       </CheckboxArea>}
