@@ -49,7 +49,6 @@ const Jobs = ({
       <Results>
         {jobs.map(job => (
           <Job
-            showFullDescription
             shouldOpenPostJob
             key={`${job._id}`}
             job={job}
