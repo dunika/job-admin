@@ -5,6 +5,7 @@ import { api as wordpress } from 'server/wordpress';
 import { api as cvLibrary } from 'server/cv-library';
 import { api as indeed } from 'server/indeed';
 import { api as scrape } from 'server/scraper';
+import { api as facebook } from 'server/facebook';
 
 export default () => {
   const api = Router();
@@ -13,6 +14,7 @@ export default () => {
   api.use('/', scrape());
   api.use('/', indeed());
   api.use('/', cvLibrary());
+  api.use('/', facebook());
   api.use('/', wordpress());
 
   api.use((error, req, res, next) => {

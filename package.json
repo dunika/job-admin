@@ -36,6 +36,7 @@
     "compression": "^1.7.0",
     "express": "^4.15.4",
     "express-restify-mongoose": "^4.2.1",
+    "fb": "^2.0.0",
     "form-data": "^2.3.1",
     "isomorphic-fetch": "^2.2.1",
     "isomorphic-form-data": "^1.0.0",
