@@ -2,6 +2,7 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import { isFunction } from 'lodash';
 
 function* getArgs(action, args) {
+  console.log(action, args);
   if (isFunction(args)) {
     return yield args(action);
   }
@@ -12,12 +13,15 @@ function* getArgs(action, args) {
   return payload ? [payload] : [];
 }
 
-export const createAsyncSaga = (actionCreator, asyncFunction, args) => {
+const mapData = data => data;
+
+export const createAsyncSaga = (actionCreator, asyncFunction, args, dataMapper = mapData) => {
   function* execute(action) {
+    console.log('yanoo');
     const asyncArgs = yield getArgs(action, args);
     try {
       const data = yield call(asyncFunction, ...asyncArgs);
-      yield put(actionCreator.success(data));
+      yield put(actionCreator.success(dataMapper(data, action.payload)));
     } catch (error) {
       yield put(actionCreator.failure(error));
     }

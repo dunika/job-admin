@@ -5,19 +5,23 @@ import { ServerStyleSheet } from 'styled-components';
 import { global } from 'client/shared/theme'; // eslint-disable-line no-unused-vars
 
 export default class MyDocument extends Document {
-  render() {
+  static getInitialProps({ renderPage }) {
     const sheet = new ServerStyleSheet();
-    const main = sheet.collectStyles(<Main />);
+    const page = renderPage(App => props => sheet.collectStyles(<App {...props} />));
     const style = sheet.getStyleElement();
+    return { ...page, style };
+  }
+
+  render() {
     return (
       <html lang="en">
         <Head>
           <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet" />
-          {style}
+          {this.props.style}
         </Head>
         <body>
           <div id="root">
-            {main}
+            <Main />
           </div>
           <NextScript />
         </body>

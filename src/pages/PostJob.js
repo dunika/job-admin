@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 
 import {
+  actions,
   PostJob as PostJobContainer,
 } from 'client/indeed';
 import { withReduxSaga } from 'client/shared/store';
 import { Main } from './layout';
 
 class PostJob extends Component {
-  static getInitialProps({ query: { id } }) {
+  static getInitialProps({ store: { getState, dispatch }, query: { id } }) {
+    const { indeed: { data } } = getState();
+    const job = data[id];
+    dispatch(actions.scrapeJobData(job));
     return { id };
   }
 

@@ -11,9 +11,9 @@ const [
 ] = ['REQUEST', 'FAILURE', 'SUCCESS'].reduce((results, action) => [...results, `@ASYNC_${action}`], []);
 
 export const createAsyncAction = (name, payloadCreator) => {
-  const request = createAction(`${name}/${ASYNC_REQUEST_SUFFIX}`);
-  const actionCreator = payload => request(payload);
-  actionCreator.request = request;
+  const requestAction = createAction(`${name}/${ASYNC_REQUEST_SUFFIX}`);
+  const actionCreator = payload => requestAction(payload);
+  actionCreator.request = requestAction;
   actionCreator.failure = createAction(`${name}/${ASYNC_FAILURE_SUFFIX}`);
   actionCreator.success = createAction(`${name}/${ASYNC_SUCCESS_SUFFIX}`, payloadCreator);
 

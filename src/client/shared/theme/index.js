@@ -21,10 +21,6 @@ const global = injectGlobal`
     font-family: 'Open Sans';     
   }
 
-  p {
-    margin: 0px;
-  }
-
   label {
     font-size: 12px;
     margin-bottom: 5px;

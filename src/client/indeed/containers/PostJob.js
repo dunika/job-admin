@@ -76,7 +76,7 @@ const PostJob = ({
           component="input"
           placeholder="Location"
         />
-        <label>Description</label>
+        <label>Description (Leave blank to use scraped description)</label>
         <Field
           name="description"
           component="textarea"
@@ -100,12 +100,14 @@ const enhance = compose(
       postJobToWordpress,
       job: {
         source,
+        description,
         sourceId,
         urls: { nonSponsoredSource },
       },
     }) => (data) => {
       postJobToWordpress({
         source,
+        description: data.description || description,
         sourceId,
         urls: {
           source: nonSponsoredSource,
@@ -115,10 +117,11 @@ const enhance = compose(
       });
     },
   }),
-  withProps(({ job: { company, location, title } }) => ({
+  withProps(({ job: { company, location, salary, title } }) => ({
     initialValues: {
       expiryDate: moment().add(1, 'M').format('YYYY-MM-DD'),
       title,
+      salary,
       location,
       company,
     },

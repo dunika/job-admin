@@ -9,8 +9,15 @@ const initialState = {
   isLoading: false,
 };
 
-
 export default handleActions({ // TODO: research lodash methods for making this easier
+  [actions.scrapeJobData]: createAsyncLeaf(({ data }, { payload: { id, ...rest } }) => ({
+    data: {
+      ...data,
+      [id]: {
+        ...data[id],
+        ...rest,
+      } },
+  })),
   [actions.search]: createAsyncLeaf((state, { payload }) => ({
     data: payload,
   })),
