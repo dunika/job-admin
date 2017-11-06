@@ -40,18 +40,21 @@ const Panel = styled.div`
 
 
 const Jobs = ({
-  isLoading,
+  addCvLibraryJobs,
   addJobsToWordpress,
   dismissJobs,
+  isLoading,
   jobs,
   selectedJobIds,
   toggleJob,
+
 }) => (
   <Container isLoading={isLoading}>
     <Flex justify="space-between">
       <Results>
         {jobs.map(job => (
           <Job
+            action={`cv-library/${job._id}`}
             key={`${job._id}`}
             isSelected={selectedJobIds[job._id]}
             toggle={toggleJob}
@@ -71,6 +74,9 @@ const Jobs = ({
           <button onClick={addJobsToWordpress}>
           Add Jobs to Wordpress
           </button>
+          <button disabled={isLoading} onClick={addCvLibraryJobs}>
+            Get new Jobs from CV Library
+          </button>
         </Flex>
       </Panel>
     </Flex>
@@ -82,6 +88,7 @@ export default connectReselect({
   isLoading: selectors.isLoading,
   selectedJobIds: selectors.selectedJobIds,
 }, {
+  addCvLibraryJobs: actions.addCvLibraryJobs,
   dismissJobs: actions.dismissJobs,
   addJobsToWordpress: actions.addJobsToWordpress,
   toggleJob: actions.toggleJob,

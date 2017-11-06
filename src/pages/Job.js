@@ -11,7 +11,6 @@ class Job extends Component {
   static async getInitialProps({ store: { dispatch, getState }, query: { id } }) {
     let { jobs: { data } } = getState();
     if (!data) {
-      const lad = dispatch(jobActions.getJobs());
       dispatch(jobActions.getJobs());
       data = getState().jobs.data;
     }

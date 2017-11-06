@@ -56,7 +56,7 @@ const Jobs = ({
       <Results>
         {jobs.map(job => (
           <Job
-            shouldOpenPostJob
+            action={`/indeed/${job._id}`}
             key={`${job._id}`}
             job={job}
           />),

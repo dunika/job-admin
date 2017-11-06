@@ -66,7 +66,7 @@ const Source = styled.a`
   margin-right: 10px;
 `;
 
-const Job = ({ shouldOpenPostJob, showFullDescription, toggle, isSelected, job }) => (
+const Job = ({ action, showFullDescription, toggle, isSelected, job }) => (
   <Result>
     <Flex>
       {toggle && <CheckboxArea
@@ -78,7 +78,7 @@ const Job = ({ shouldOpenPostJob, showFullDescription, toggle, isSelected, job }
         />
       </CheckboxArea>}
       <div>
-        <Title to={`/${shouldOpenPostJob ? 'post-job' : 'jobs'}/${job._id}`} shallow>
+        <Title to={action} shallow>
           {job.title}
         </Title>
         <Flex>

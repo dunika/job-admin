@@ -22,7 +22,7 @@ const HeaderLink = styled(Link)`
 const Main = ({ children }) => (
   <Container>
     <Header>
-      <HeaderLink to="/" shallow>
+      <HeaderLink to="/indeed" shallow>
         Indeed
       </HeaderLink>
       <HeaderLink to="/cv-library" shallow>
