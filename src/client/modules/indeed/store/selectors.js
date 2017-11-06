@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { createKeyedSelector } from 'client/shared/utils';
+import { createKeyedSelector } from 'client/lib/redux-helpers';
 
 const getJobsState = ({ indeed }) => indeed;
 

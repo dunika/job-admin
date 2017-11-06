@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 
 import {
   actions as jobActions,
-  selectors as jobSelectors,
   Job as JobComponent,
-} from 'client/jobs';
-import { withReduxSaga } from 'client/shared/store';
+} from 'client/modules/jobs';
+import { withReduxSaga } from 'client/store';
 import { Main } from './layout';
 
 class Job extends Component {

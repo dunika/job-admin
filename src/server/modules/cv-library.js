@@ -3,7 +3,7 @@ import { isString } from 'lodash';
 import BlueBird from 'bluebird';
 
 import { cvLibraryApi } from 'config';
-import { regions, request } from 'isomorphic';
+import { regions, request } from 'isomorphic/utils';
 import { models } from 'server/database';
 import { Router } from 'express';
 

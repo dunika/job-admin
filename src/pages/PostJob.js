@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import {
   actions,
   PostJob as PostJobContainer,
-} from 'client/indeed';
-import { withReduxSaga } from 'client/shared/store';
+} from 'client/modules/indeed';
+import { withReduxSaga } from 'client/store';
 import { Main } from './layout';
 
 class PostJob extends Component {

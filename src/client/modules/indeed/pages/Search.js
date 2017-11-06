@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { compose, withStateHandlers, withHandlers } from 'recompose';
 
-import { Checkbox, Flex } from 'client/shared/components';
-import { connectReselect } from 'client/shared/utils';
-import { Job } from 'client/jobs';
+import { Checkbox, Flex } from 'client/modules/shared/components';
+import { connectReselect } from 'client/lib/redux-helpers';
+import { Job } from 'client/modules/jobs';
 import { actions, selectors } from '../store';
 
 const Container = styled.div`

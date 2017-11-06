@@ -1,5 +1,5 @@
 import { handleActions } from 'redux-actions';
-import { createAsyncLeaf } from 'client/shared/utils';
+import { createAsyncLeaf } from 'client/lib/redux-helpers';
 
 import actions from './actions';
 

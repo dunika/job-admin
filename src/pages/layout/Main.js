@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Link } from 'client/shared/components';
+import { Link } from 'client/modules/shared/components';
 
 const Container = styled.div``;
 

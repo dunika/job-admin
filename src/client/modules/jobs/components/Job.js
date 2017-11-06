@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
 
-import { Checkbox, Flex, Link } from 'client/shared/components';
+import { Checkbox, Flex, Link } from 'client/modules/shared/components';
 
 const Result = styled.div`
   margin-bottom: 20px;

@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 import { database } from 'config';
-import { isDevelopment } from 'isomorphic';
+import { isDevelopment } from 'isomorphic/utils';
 import Job from './Job'; // eslint-disable-line no-unused-vars
 
 mongoose.Promise = Promise;

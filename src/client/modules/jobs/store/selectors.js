@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import moment from 'moment';
 import { compose, lowerCase } from 'lodash/fp';
-import { createKeyedSelector } from 'client/shared/utils';
+import { createKeyedSelector } from 'client/lib/redux-helpers';
 
 const getJobsState = ({ jobs }) => jobs;
 

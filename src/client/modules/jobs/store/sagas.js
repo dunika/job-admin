@@ -1,7 +1,7 @@
 import { select } from 'redux-saga/effects';
-import { createAsyncSaga } from 'client/shared/utils';
+import { createAsyncSaga } from 'client/lib/redux-helpers';
 
-import { request } from 'isomorphic';
+import request from 'client/lib/request';
 import selectors from './selectors';
 import actions from './actions';
 

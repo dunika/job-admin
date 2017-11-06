@@ -1,6 +1,6 @@
-import { createAsyncSaga } from 'client/shared/utils';
+import { createAsyncSaga } from 'client/lib/redux-helpers';
 
-import { request } from 'isomorphic';
+import request from 'client/lib/request';
 import actions from './actions';
 
 const scrapeJobData = createAsyncSaga(actions.scrapeJobData, request.post, ({ payload }) => { //eslint-disable-line

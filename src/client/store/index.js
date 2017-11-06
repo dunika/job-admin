@@ -6,9 +6,9 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { createLogger } from 'redux-logger';
 import { reducer as form } from 'redux-form';
 
-import { isDevelopment, isServer } from 'isomorphic';
-import { reducer as jobs } from 'client/jobs';
-import { reducer as indeed } from 'client/indeed';
+import { isDevelopment, isServer } from 'isomorphic/utils';
+import { reducer as jobs } from 'client/modules/jobs';
+import { reducer as indeed } from 'client/modules/indeed';
 import rootSaga from './saga';
 
 const reducer = combineReducers({
@@ -30,7 +30,7 @@ const middleware = [
   loggerMiddleware,
 ];
 
-export function configureStore(initialState = {}) {
+function configureStore(initialState = {}) {
   const store = createStore(
     reducer,
     initialState,

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { actions as jobActions, Jobs } from 'client/jobs';
+import { actions as jobActions, Jobs } from 'client/modules/jobs';
 
-import { withReduxSaga } from 'client/shared/store';
+import { withReduxSaga } from 'client/store';
 import { Main } from './layout';
 
 class App extends Component {

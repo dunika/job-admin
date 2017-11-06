@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { connectReselect } from 'client/shared/utils';
+import { connectReselect } from 'client/lib/redux-helpers';
 import { actions, selectors } from '../store';
 
 const CVLibrary = ({ addJobs, isLoading }) => (

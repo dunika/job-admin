@@ -2,7 +2,7 @@ import React from 'react';
 import Document, { Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
-import { global } from 'client/shared/theme'; // eslint-disable-line no-unused-vars
+import { global } from 'client/theme'; // eslint-disable-line no-unused-vars
 
 export default class MyDocument extends Document {
   static getInitialProps({ renderPage }) {

@@ -1,13 +1,11 @@
 import React from 'react';
-import styled from 'styled-components';
 
-import { connectReselect } from 'client/shared/utils';
-import { Checkbox, Flex } from 'client/shared/components';
+import { connectReselect } from 'client/lib/redux-helpers';
+import { Checkbox, Flex } from 'client/modules/shared/components';
 import { actions, selectors } from '../../store';
 
 const Filters = ({
   postedFilter,
-  locationFilter,
   togglePostedFilter,
   setLocationFilter,
 }) => (

@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Flex } from 'client/shared/components';
-import { connectReselect } from 'client/shared/utils';
+import { Flex } from 'client/modules/shared/components';
+import { connectReselect } from 'client/lib/redux-helpers';
 import { actions, selectors } from '../../store';
 import { Job } from '../../components';
 import Filters from './Filters';

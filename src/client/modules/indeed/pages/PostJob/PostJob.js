@@ -6,9 +6,10 @@ import moment from 'moment';
 
 import { Flex } from 'client/modules/shared/components';
 import { connectReselect } from 'client/lib/redux-helpers';
-import { Job } from 'client/jobs';
-import { CategorySelector, JobTypeSelector } from '../components';
-import { actions, selectors } from '../store';
+import { Job } from 'client/modules/jobs';
+import CategorySelector from './CategorySelector';
+import JobTypeSelector from './JobTypeSelector';
+import { actions, selectors } from '../../store';
 
 const Container = styled.div`
   ${({ isLoading }) => isLoading && `

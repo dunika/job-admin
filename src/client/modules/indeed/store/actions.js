@@ -1,5 +1,5 @@
-import { createAsyncAction } from 'client/shared/utils';
-import { regions } from 'isomorphic';
+import { createAsyncAction } from 'client/lib/redux-helpers';
+import regions from 'isomorphic/regions';
 
 const getLocation = (location) => {
   const regex = new RegExp(location.replace(',', '').split(' ').join('|'));

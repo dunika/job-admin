@@ -6,10 +6,10 @@ import morgan from 'morgan';
 import { resolve } from 'path';
 
 import routes from 'routes';
-import { isDevelopment } from 'isomorphic';
+import api from 'server/api';
+import { isDevelopment } from 'isomorphic/utils';
 import { initialize as initializeDatabase } from 'server/database';
 import { redirects } from 'server/middleware';
-import api from 'server/api';
 import { listen } from 'server/lib/utils';
 
 const app = next({

@@ -1,5 +1,5 @@
 import { createAction } from 'redux-actions';
-import { createAsyncAction } from 'client/shared/utils';
+import { createAsyncAction } from 'client/lib/redux-helpers';
 
 const normalizeJobs = data => data.reduce((results, job) => ({
   ...results,

@@ -1,6 +1,6 @@
 import { takeEvery } from 'redux-saga/effects';
-import { sagas as indeedSagas } from 'client/indeed';
-import { sagas as jobSagas } from 'client/jobs';
+import { sagas as indeedSagas } from 'client/modules/indeed';
+import { sagas as jobSagas } from 'client/modules/jobs';
 
 function handleErrors({ payload }) {
   alert(payload);

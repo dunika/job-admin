@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { CvLibrary as CvLibraryContainer } from 'client/jobs';
-import { withReduxSaga } from 'client/shared/store';
+import { CvLibrary as CvLibraryContainer } from 'client/modules/jobs';
+import { withReduxSaga } from 'client/store';
 import { Main } from './layout';
 
 const CvLibrary = () => (
