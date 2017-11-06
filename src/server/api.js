@@ -1,10 +1,11 @@
 import { Router } from 'express';
 
-import { api as job } from 'server/job';
-import { api as wordpress } from 'server/wordpress';
-import { api as cvLibrary } from 'server/cv-library';
-import { api as indeed } from 'server/indeed';
-import { api as scrape } from 'server/scraper';
+import { api as job } from 'server/modules/job';
+import { api as wordpress } from 'server/modules/wordpress';
+import { api as cvLibrary } from 'server/modules/cv-library';
+import { api as indeed } from 'server/modules/indeed';
+import { api as scrape } from 'server/modules/scraper';
+import { apiErrorHandler } from 'server/middleware';
 
 export default () => {
   const api = Router();
@@ -15,11 +16,6 @@ export default () => {
   api.use('/', cvLibrary());
   api.use('/', wordpress());
 
-  api.use((error, req, res, next) => {
-    console.log(error);
-    const message = error.message || error;
-    console.error(`Error: ${message}`);
-    res.status(500).json({ error: message });
-  });
+  api.use(apiErrorHandler());
   return api;
 };

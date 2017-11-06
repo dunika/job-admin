@@ -8,7 +8,9 @@ import { resolve } from 'path';
 import routes from 'routes';
 import { isDevelopment } from 'isomorphic';
 import { initialize as initializeDatabase } from 'server/database';
+import { redirects } from 'server/middleware';
 import api from 'server/api';
+import { listen } from 'server/lib/utils';
 
 const app = next({
   dir: resolve(__dirname, '../'),
@@ -22,15 +24,9 @@ server.use(morgan(isDevelopment ? 'dev' : 'combined', {
 }));
 server.use(bodyParer.json());
 server.use(compression());
+server.use(redirects());
 server.use('/api', api());
 server.use(routes.getRequestHandler(app));
-
-const listen = (server, port) => new Promise((resolve, reject) => { // eslint-disable-line
-  const listener = server.listen(port, (error) => {
-    if (error) reject(error);
-    resolve(listener);
-  });
-});
 
 const initialize = async () => {
   try {

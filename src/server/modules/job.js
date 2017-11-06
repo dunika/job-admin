@@ -4,16 +4,16 @@ import restify from 'express-restify-mongoose';
 
 import { models } from '../database';
 
-export default () => {
-  const api = Router();
+export const api = () => {
+  const routes = Router();
 
-  restify.serve(api, models.Job, {
+  restify.serve(routes, models.Job, {
     name: 'job',
     prefix: '',
     version: '',
   });
 
-  api.patch('/job', async (req, res, next) => {
+  routes.patch('/job', async (req, res, next) => {
     try {
       const updatedJobs = await BlueBird.map(req.body, async ({ _id, ...data }) => {
         const updatedJob = await models.Job.findByIdAndUpdate({ _id }, { $set: { ...data } });
@@ -26,5 +26,5 @@ export default () => {
     }
   });
 
-  return api;
+  return routes;
 };

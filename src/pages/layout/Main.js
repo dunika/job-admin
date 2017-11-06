@@ -23,13 +23,10 @@ const Main = ({ children }) => (
   <Container>
     <Header>
       <HeaderLink to="/" shallow>
-        Jobs
+        Indeed
       </HeaderLink>
       <HeaderLink to="/cv-library" shallow>
         CV Library
-      </HeaderLink>
-      <HeaderLink to="/indeed" shallow>
-        Indeed
       </HeaderLink>
     </Header>
     <Content>
