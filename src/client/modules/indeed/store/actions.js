@@ -1,12 +1,11 @@
 import { createAsyncAction } from 'client/lib/redux-helpers';
-import regions from 'isomorphic/regions';
+import locations from 'isomorphic/locations';
 
 const getLocation = (location) => {
   const regex = new RegExp(location.replace(',', '').split(' ').join('|'));
-  return regions.find(region => regex.test(region)) || location;
+  return locations.find(region => regex.test(region)) || location;
 };
 
-// TODO: Move the main normalization to server
 // TODO: Rename location to region
 const normalizeJobs = data => data.reduce((results, { location, sourceId, ...rest }) => ({
   ...results,

@@ -7,12 +7,12 @@ const normalizeJobs = data => data.reduce((results, job) => ({
 }), {});
 
 export default {
+  addCvLibraryJobs: createAsyncAction('ADD_CVLIBRARY_JOBS', undefined, ({ message }) => ({ message })),
   addJobsToWordpress: createAsyncAction('ADD_JOBS_TO_WORDPRESS', normalizeJobs),
-  addCvLibraryJobs: createAsyncAction('ADD_CVLIBRARY_JOB', normalizeJobs),
   dismissJobs: createAsyncAction('DISMISS_JOBS'),
   getJobs: createAsyncAction('GET_JOBS', normalizeJobs),
-  toggleJob: createAction('TOGGLE_JOB'),
-  togglePostedFilter: createAction('TOGGLE_POSTED_FILTER'), // TODO Name this isPosed
   setLocationFilter: createAction('SET_LOCATION_FILTER'),
+  toggleIsPostedFilter: createAction('TOGGLE_IS_POSTED_FILTER'), // TODO Name this isPosed
+  toggleJob: createAction('TOGGLE_JOB'),
 };
 

@@ -17,12 +17,7 @@ const initialState = {
 
 export default handleActions({ // TODO: research lodash methods for making this easier
   [actions.getJobs]: createAsyncLeaf(),
-  [actions.addCvLibraryJobs]: createAsyncLeaf(({ data }, { payload }) => ({
-    data: {
-      ...data,
-      ...payload,
-    },
-  })),
+  [actions.addCvLibraryJobs]: createAsyncLeaf(() => ({})),
   [actions.addJobsToWordpress]: createAsyncLeaf(({ data }, { payload }) => ({
     data: {
       ...data,
@@ -45,7 +40,7 @@ export default handleActions({ // TODO: research lodash methods for making this 
       [payload]: !state.selected[payload],
     },
   }),
-  [actions.togglePostedFilter](state) {
+  [actions.toggleIsPostedFilter](state) {
     const { activeFilters } = state;
     return {
       ...state,

@@ -75,8 +75,8 @@ const Jobs = ({
           Add Jobs to Wordpress
           </button>
           <br />
-          <button disabled={isLoading} onClick={addCvLibraryJobs}>
-            Get new Jobs from CV Library
+          <button onClick={addCvLibraryJobs}>
+            Get Jobs From CV Library
           </button>
         </Flex>
       </Panel>

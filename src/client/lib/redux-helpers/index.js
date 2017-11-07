@@ -10,12 +10,12 @@ const [
   ASYNC_SUCCESS_SUFFIX,
 ] = ['REQUEST', 'FAILURE', 'SUCCESS'].reduce((results, action) => [...results, `@ASYNC_${action}`], []);
 
-export const createAsyncAction = (name, payloadCreator) => {
+export const createAsyncAction = (name, payloadCreator, metaCreator) => {
   const requestAction = createAction(`${name}/${ASYNC_REQUEST_SUFFIX}`);
   const actionCreator = payload => requestAction(payload);
   actionCreator.request = requestAction;
   actionCreator.failure = createAction(`${name}/${ASYNC_FAILURE_SUFFIX}`);
-  actionCreator.success = createAction(`${name}/${ASYNC_SUCCESS_SUFFIX}`, payloadCreator);
+  actionCreator.success = createAction(`${name}/${ASYNC_SUCCESS_SUFFIX}`, payloadCreator, metaCreator);
 
   actionCreator.toString = () => name;
 

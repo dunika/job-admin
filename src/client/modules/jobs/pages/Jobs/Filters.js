@@ -6,7 +6,7 @@ import { actions, selectors } from '../../store';
 
 const Filters = ({
   postedFilter,
-  togglePostedFilter,
+  toggleIsPostedFilter,
   setLocationFilter,
 }) => (
   <div>
@@ -16,7 +16,7 @@ const Filters = ({
         label="Posted to Wordpress"
         size="small"
         checked={postedFilter}
-        onChange={togglePostedFilter}
+        onChange={toggleIsPostedFilter}
       />
     </Flex>
     <input
@@ -30,6 +30,6 @@ export default connectReselect({
   postedFilter: selectors.postedFilter,
   locationFilter: selectors.locationFilter,
 }, {
-  togglePostedFilter: actions.togglePostedFilter,
+  toggleIsPostedFilter: actions.toggleIsPostedFilter,
   setLocationFilter: actions.setLocationFilter,
 })(Filters);

@@ -1,11 +1,12 @@
 import parseXml from 'xml2json';
 import { isString } from 'lodash';
 import BlueBird from 'bluebird';
-
-import { cvLibraryApi } from 'config';
-import { regions, request } from 'isomorphic/utils';
-import { models } from 'server/database';
+import request from 'request-promise';
 import { Router } from 'express';
+
+import locations from 'isomorphic/locations';
+import { models } from 'server/database';
+import { cvLibraryApi } from 'config';
 
 const sanitizeSalary = (salary) => {
   if (typeof salary === 'string') {
@@ -19,7 +20,7 @@ const sanitizeSalary = (salary) => {
 const withLocation = jobs => jobs.map(({ county, location, ...job }) => {
   if (isString(county)) {
     const regex = new RegExp(`${`${county} ${location}`.split(' ').join('|')}`);
-    const jobLocation = regions.find(region => regex.test(region));
+    const jobLocation = locations.find(region => regex.test(region));
     return {
       ...job,
       location: jobLocation,
@@ -40,12 +41,13 @@ ${description}`,
 export const api = () => {
   const routes = Router();
   routes.use('/cv-library/add-jobs', async (req, res, next) => {
+    res.status(200).json({ message: 'Operation started. Refresh this page in about 5 minutes to see new jobs' });
     try {
       console.log('Fetching jobs from CV Library');
       const xml = await request(cvLibraryApi);
       const { jobs: { job: parsedJobs } } = parseXml.toJson(xml, { object: true });
       const jobs = withLocation(parsedJobs);
-      const addedJobs = await BlueBird.map(jobs, async ({
+      await BlueBird.map(jobs, async ({
         description,
         jobref,
         location,
@@ -72,7 +74,6 @@ export const api = () => {
           return null;
         }
       });
-      res.status(200).json([...addedJobs.filter(value => !!value)]);
       return;
     } catch (error) {
       next(error);

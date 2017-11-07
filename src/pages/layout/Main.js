@@ -25,8 +25,8 @@ const Main = ({ children }) => (
       <HeaderLink to="/indeed" shallow>
         Indeed
       </HeaderLink>
-      <HeaderLink to="/cv-library" shallow>
-        CV Library
+      <HeaderLink to="/jobs" shallow>
+        Jobs
       </HeaderLink>
     </Header>
     <Content>

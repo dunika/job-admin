@@ -1,7 +1,6 @@
 export const redirects = () => (req, res, next) => {
   if (req.path === '/') {
-    res.redirect('/indeed').end();
-    res.end();
+    res.redirect('/indeed');
   }
   next();
 };

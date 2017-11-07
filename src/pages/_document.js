@@ -16,6 +16,9 @@ export default class MyDocument extends Document {
     return (
       <html lang="en">
         <Head>
+          <title>
+            Job Admin
+          </title>
           <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet" />
           {this.props.style}
         </Head>
