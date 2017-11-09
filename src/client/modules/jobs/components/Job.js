@@ -2,14 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
 
-import { Checkbox, Flex, Link } from 'client/modules/shared/components';
+import { Flex } from 'client/modules/shared/components';
+import { Checkbox } from 'client/modules/forms';
 
 const Result = styled.div`
   margin-bottom: 20px;
   width: 500px;
 `;
 
-const Title = styled(Link)`
+const Title = styled(Result)`
   font-weight: bold;
   font-size: 21px;
   margin-bottom: 5px;

@@ -13,7 +13,7 @@
     "jsx-a11y/href-no-hash": "off",
     "no-underscore-dangle":"off",
     "no-debugger":"off",
-    "react/prop-types": "off"
+    "react/prop-types": "off",
   },
   "settings": {
     "import/resolver": {

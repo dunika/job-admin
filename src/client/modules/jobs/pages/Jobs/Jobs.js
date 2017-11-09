@@ -19,18 +19,6 @@ const Results = styled.div`
   padding-right: 20px;
 `;
 
-const ActionBar = styled.div`
-  background-color: #003399;
-  bottom: 0;
-  left: 0;
-  position: fixed;
-  width: 100%;
-  padding: 10px 0;
-  button {
-    margin-left: 15px;
-  }
-`;
-
 const Panel = styled.div`
   padding: 30px 20px;
   position: fixed;

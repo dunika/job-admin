@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { connectReselect } from 'client/lib/redux-helpers';
-import { Checkbox, Flex } from 'client/modules/shared/components';
+import { Flex } from 'client/modules/shared/components';
+import { Checkbox } from 'client/modules/forms';
 import { actions, selectors } from '../../store';
 
 const Filters = ({
