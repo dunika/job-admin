@@ -1,8 +1,22 @@
-import { Router } from 'express';
-import { Facebook } from 'fb';
+import { Facebook as Fb } from 'fb';
 
-const getPermanentAccessToken = async (appId, appSecret, accessToken) => {
-  const fb = new Facebook({ appId, appSecret, accessToken });
+import { Config } from 'server/database';
+import cache from 'server/lib/cache';
+
+const Facebook = () => {
+  try {
+    const config = cache.getAndSetAsync('facebookConfig', async () => {
+      const { facebook } = await Config.findOne({}).lean();
+      return facebook;
+    });
+    return new Fb(config);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getPermanentAccessToken = async (appId, appSecret, accessToken) => {
+  const fb = new Facebook();
   const { access_token: longLivedToken } = await fb.api('oauth/access_token', {
     client_id: appId,
     client_secret: appSecret,
@@ -21,17 +35,5 @@ const getPermanentAccessToken = async (appId, appSecret, accessToken) => {
   }));
 };
 
+export default Facebook;
 
-export const api = () => {
-  const apiRoutes = Router();
-  apiRoutes.use('/facebook', async (req, res, next) => {
-    try {
-      const token = await getPermanentAccessToken('441618609507054', 'e48497bb9e50a407d615baeffefa4818', 'EAAGRplhYiu4BAOZBWbRCaHZBjRLnviL9aYydrMCyhDqqZCIvcfABZA8ItoPx45T75wKQ3ZALfabyqGGggg0bpjkIZBwhoKcfRwEmODYhvZBzrYlQeZBgWjKshmUdx3Wk7TLUIRaehEKb3ppueqeI6ZBB7GZB2UuIHqMcWZCB3x4rNBZCS3ZAmZBcumd8bO432QTNUZCPunTlZB7l276r1gZDZD');
-      res.json({ token });
-    } catch (error) {
-      next(error);
-    }
-  });
-
-  return apiRoutes;
-};
