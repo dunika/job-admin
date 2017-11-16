@@ -6,9 +6,9 @@ const formInput = Component => ({ label, ...otherProps }) => (
   <HtmlId>
     {id => (
       <label htmlFor={id}>
-        <p>
+        {label && <span>
           {label}
-        </p>
+        </span>}
         <Component {...otherProps} id={id} />
       </label>
     )}
