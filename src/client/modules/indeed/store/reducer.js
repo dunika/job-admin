@@ -18,9 +18,7 @@ export default handleActions({ // TODO: research lodash methods for making this 
         ...rest,
       } },
   })),
-  [actions.search]: createAsyncLeaf((state, { payload }) => ({
-    data: payload,
-  })),
+  [actions.search]: createAsyncLeaf(),
   [actions.postJobToWordpress]: createAsyncLeaf(({ data }, { payload }) => ({
     data: {
       ...data,
