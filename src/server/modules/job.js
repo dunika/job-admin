@@ -19,7 +19,7 @@ export const api = () => {
         const updatedJob = await models.Job.findByIdAndUpdate({ _id }, { $set: { ...data } });
         return updatedJob;
       });
-      res.status(200).json(updatedJobs.map(({ _id }) => _id));
+      res.json(updatedJobs.map(({ _id }) => _id));
     } catch (error) {
       console.log(error);
       next(error);

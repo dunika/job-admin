@@ -41,7 +41,7 @@ ${description}`,
 export const api = () => {
   const routes = Router();
   routes.use('/cv-library/add-jobs', async (req, res, next) => {
-    res.status(200).json({ message: 'Operation started. Refresh this page in about 5 minutes to see new jobs' });
+    res.json({ message: 'Operation started. Refresh this page in about 5 minutes to see new jobs' });
     try {
       console.log('Fetching jobs from CV Library');
       const xml = await request(cvLibraryApi);

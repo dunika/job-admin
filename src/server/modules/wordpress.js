@@ -73,7 +73,7 @@ export const api = () => {
       }, { concurrency: 1 });
 
       console.log('Finished creating job posts');
-      res.status(200).json([...postedJobs.filter(value => value)]);
+      res.json([...postedJobs.filter(value => value)]);
       return;
     } catch (error) {
       next(error);
@@ -89,7 +89,7 @@ export const api = () => {
       const postedJob = await postAndSave(job);
       await job.save();
       console.log('Finished creating job post');
-      res.status(200).json({ postedJob });
+      res.json({ postedJob });
       return;
     } catch (error) {
       next(error);
