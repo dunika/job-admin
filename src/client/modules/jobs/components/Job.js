@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import moment from 'moment';
 
 import { Flex } from 'client/modules/shared/components';
-import { Checkbox } from 'client/modules/forms';
+import { Checkbox } from 'client/lib/forms';
 
 const Result = styled.div`
   margin-bottom: 20px;

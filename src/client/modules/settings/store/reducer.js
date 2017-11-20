@@ -10,7 +10,7 @@ const initalState = {
 };
 
 const reducer = handleActions({
-  [actions.loadConfig]: createAsyncLeaf(),
+  [actions.loadSettings]: createAsyncLeaf(),
 }, initalState);
 
 export default reducer;
