@@ -2,7 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { compose, withStateHandlers, withHandlers } from 'recompose';
 
-import { Checkbox, Flex } from 'client/modules/shared/components';
+import { Flex } from 'client/modules/shared/components';
+import { Checkbox } from 'client/lib/forms';
 import { connectReselect } from 'client/lib/redux-helpers';
 import { Job } from 'client/modules/jobs';
 import { actions, selectors } from '../store';
