@@ -10,7 +10,7 @@ mongoose.Promise = Promise;
 const createInitalDocuments = async () => {
   try {
     const facebook = await Setting.findOneAndUpdate({ name: 'facebook' }, {}, { new: true, upsert: true });
-    if (!facebook) {
+    if (!facebook.settings) {
       facebook.settings = {
         appId: '',
         appSecret: '',

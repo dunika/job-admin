@@ -5,12 +5,10 @@ import { models } from '../database';
 export const api = () => {
   const routes = Router();
 
-  routes.post('/settings', async (req, res, next) => {
-    const { name } = req.body;
+  routes.get('/settings', async (req, res, next) => {
     try {
-      const { settings } = await models.Setting.findOne({ name }).lean();
-
-      res.json({ settings });
+      const result = await models.Setting.findOne({ name: 'facebook' }, '-_id name settings').lean();
+      res.json({ ...result });
     } catch (error) {
       console.log(error);
       next(error);
@@ -18,14 +16,9 @@ export const api = () => {
   });
 
   routes.post('/settings', async (req, res, next) => {
-    const { name, settings: updatedSettings } = req.body;
+    const { name, settings } = req.body;
     try {
-      const setting = await models.Settings.findOne({ name });
-
-      setting.settings = {
-        ...setting.settings,
-        ...updatedSettings,
-      };
+      const setting = await models.Setting.findOneAndUpdate({ name }, { settings });
 
       await setting.save();
       res.json({ success: true });

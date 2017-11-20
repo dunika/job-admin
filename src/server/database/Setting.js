@@ -8,9 +8,9 @@ const schema = new Schema({
   },
   settings: {
     type: Object,
-    default: {},
+    default: null,
   },
 }, { versionKey: false });
 
-export default mongoose.model('Job', schema);
+export default mongoose.model('Setting', schema);
 
